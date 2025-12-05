@@ -7,8 +7,12 @@ layout: default
 
 <p class="view">by {{ page.author | default: site.author }}</p>
 
-{{content}}
+{{ content }}
 
 {% if page.tags %}
   <small>tags: <em>{{ page.tags | join: "</em> - <em>" }}</em></small>
+{% endif %}
+
+{% if page.categories %}
+  <small>categories: <em>{{ page.categories | join: "</em> - <em>" }}</em></small>
 {% endif %}

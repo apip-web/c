@@ -1,21 +1,15 @@
 ---
 layout: default
 ---
-# Selamat Datang di Situs Saya
+## Selamat Datang di Situs Saya
 
 Ini adalah blog pribadi saya tentang teknologi dan coding.
 
-## Artikel Terbaru
-
-{% for post in site.posts limit:5 %}
-- [{{ post.title }}]({{ post.url }})
-{% endfor %}
-
-## Tentang Saya
+### Tentang Saya
 
 Saya seorang pengembang web yang suka eksperimen dengan Jekyll dan HTML/CSS.
 
-<h2>Daftar Postingan</h2>
+### Daftar Postingan
 
 <ul>
 {% for post in site.posts %}

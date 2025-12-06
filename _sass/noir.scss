@@ -123,7 +123,6 @@ ol li {
   font-size: 13px;
   counter-increment: my-counter;
   margin-bottom: 0.8em;
-  gap: 10px;
   background: #0d0d0d; /* kotak item */
   padding: 5px 10px;
   border-radius: 9px;
@@ -143,7 +142,6 @@ ol li::before {
   font-size: 12px;
   font-weight: bold;
   margin: 0 26px 0 -50px;
-  transform: translateY(0px);
 }
 
 ul {
@@ -155,7 +153,6 @@ ul {
 ul li {
   font-size: 13px;
   margin-bottom: 0.8em;
-  gap: 10px;
   background: #0d0d0d; /* kotak item */
   padding: 5px 10px;
   border-radius: 9px;
@@ -174,7 +171,19 @@ ul li::before {
   font-size: 12px;
   font-weight: bold;
   margin: 0 26px 0 -50px;
-  transform: translateY(0px);
+}
+
+/* ===== Unordered List Level 2 ===== */
+ul ul li, ol ol li {
+  margin-bottom: 0;
+}
+
+ul ul li::before, ol ol li::before {
+  margin: 0 10px 0 -50px;
+}
+/* ===== Unordered List Level 3 ===== */
+ul ul ul li::before, ol ol ol li::before {
+  margin: 0 10px 0 -80px;
 }
 
 /* ===== Blockquote ===== */
@@ -2094,6 +2103,7 @@ footer {
 	}
 
 }
+
 
 
 

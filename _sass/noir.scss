@@ -142,9 +142,8 @@ ol li::before {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
-  font-family: Tahoma;
   margin: 0 26px 0 -50px;
-  transform: translateY(-3px);
+  transform: translateY(0px);
 }
 
 ul {
@@ -156,7 +155,6 @@ ul {
 ul li {
   font-size: 13px;
   margin-bottom: 0.8em;
-  margin-left: -20px;
   gap: 10px;
   background: #0d0d0d; /* kotak item */
   padding: 5px 10px;
@@ -175,9 +173,8 @@ ul li::before {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
-  font-family: Tahoma;
   margin: 0 26px 0 -50px;
-  transform: translate(15px, -3px);
+  transform: translateY(0px);
 }
 
 /* ===== Blockquote ===== */
@@ -2097,6 +2094,7 @@ footer {
 	}
 
 }
+
 
 
 

@@ -222,6 +222,8 @@ table {
   border-spacing: 0px;
   text-align: left;
   background: #0d0d0d; /* pitch black */
+  overflow-x: auto;
+  display: block;
 }
 
 th {
@@ -2119,6 +2121,7 @@ footer {
 	}
 
 }
+
 
 
 

@@ -5,7 +5,7 @@ layout: default
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 
-[Link to another page](/page/another-page.html).
+[Link to another page](/page/another-page).
 
 There should be whitespace between paragraphs.
 
@@ -77,30 +77,13 @@ end
 1.  Item three
 1.  Item four
 
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
 ### Small image
 
 ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
 
 ### Large image
 
-![Branching]([https://guides.github.com/activities/hello-world/branching.png](https://img.freepik.com/free-vector/black-background-with-focus-spot-light_1017-27230.jpg))
-
+![Branching]((https://img.freepik.com/free-vector/black-background-with-focus-spot-light_1017-27230.jpg))
 
 ### Definition lists can be used with HTML syntax.
 

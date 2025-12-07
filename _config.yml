@@ -9,3 +9,8 @@ collections:
   page:
     output: true
     permalink: /page/:name/
+    defaults:
+      - scope:
+          type: page
+        values:
+          layout: default

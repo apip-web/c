@@ -18,12 +18,4 @@ layout: default
     {% endfor %}
   </ul>
 
-<h3>Pages</h3>
-<ul>
-  {% for p in site.page %}
-    <li>
-      <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
 </div>

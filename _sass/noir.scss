@@ -75,40 +75,34 @@ pre {
 }
 
 /* ===== Headings ===== */
+h1, h2, h3, h4, h5, h6 {
+  color:#222;
+  margin:0 0 20px;
+  font-weight: 400;
+}
+
 h1 {
   font-size: clamp(2.5rem, 5vw, 3.75rem);  /* ~50–60px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 h2 {
   font-size: clamp(2.2rem, 4.5vw, 3.2rem); /* ~44–52px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 h3 {
   font-size: clamp(1.9rem, 4vw, 2.8rem);   /* ~38–45px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 h4 {
   font-size: clamp(1.6rem, 3.5vw, 2.3rem); /* ~32–38px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 h5 {
   font-size: clamp(1.35rem, 3vw, 1.9rem);  /* ~27–32px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 h6 {
   font-size: clamp(1.15rem, 2.5vw, 1.5rem); /* ~23–26px */
-  margin: 10px 0;
-  font-weight: 400;
 }
 
 /* ===== Modern Lists (Pitch Black Theme) ===== */

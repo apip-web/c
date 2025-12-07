@@ -101,13 +101,6 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id], section[id] {
   text-decoration: none;
   margin-left: 8px;
   opacity: 1;
-  transition: opacity .25s ease;
-}
-
-h2:hover .anchorjs-link,
-h3:hover .anchorjs-link,
-h4:hover .anchorjs-link {
-  opacity: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -2077,6 +2070,7 @@ footer {
 	}
 
 }
+
 
 
 

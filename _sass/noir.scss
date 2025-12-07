@@ -85,6 +85,20 @@ hr {
 }
 
 /* ===== Headings ===== */
+.anchorjs-link {
+  color: #ff3366;
+  text-decoration: none;
+  margin-left: 8px;
+  opacity: 0.4;
+  transition: opacity .25s ease;
+}
+
+h2:hover .anchorjs-link,
+h3:hover .anchorjs-link,
+h4:hover .anchorjs-link {
+  opacity: 1;
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin:0 0 20px;
   font-weight: 400;
@@ -2052,6 +2066,7 @@ footer {
 	}
 
 }
+
 
 
 

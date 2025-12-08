@@ -39,7 +39,7 @@ end
 ```
 
 <style>
-/* Base PRE */
+/* Line number container */
 pre {
   position: relative;
   padding-left: 48px !important;
@@ -48,32 +48,28 @@ pre {
   border-radius: 6px;
   border: 1px solid #222;
   line-height: 1.45;
-  overflow: auto; /* penting, bukan overflow-x */
-  font-family: monospace;
+  overflow-x: auto;
 }
 
-/* Setiap baris */
+/* setiap baris */
 pre code .line {
   display: block;
   position: relative;
   padding-left: 8px;
   counter-increment: line;
-  white-space: pre; /* JANGAN hilang, ini yang jaga baris tidak rusak */
 }
 
-/* Nomor baris */
+/* nomor baris */
 pre code .line::before {
   content: counter(line);
-  position: sticky;   /* STICKY FIX */
-  left: -40px;        /* tetap kiri — tapi sekarang tidak disembunyikan */
+  position: absolute;
+  left: -40px;
+  top: 0;
   width: 32px;
   text-align: right;
   color: #ff3366;
   opacity: 0.7;
   font-size: 0.85em;
-  background: #0a0a0a; /* agar sticky tidak menumpuk teks */
-  padding-right: 6px;
-  display: inline-block;
 }
 </style>
 

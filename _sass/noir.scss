@@ -71,32 +71,6 @@ code, pre {
   color: #f8f8f2;
 }
 
-.code-block {
-  position: relative;
-  background: #1e1e1e;
-  border-radius: 6px;
-  overflow: auto;
-  padding-left: 50px; /* ruang untuk line number */
-}
-
-/* posisi line number */
-.code-block .line-numbers {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  padding: 10px 5px;
-  text-align: right;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 1.5em;
-  color: #777;
-  border-right: 1px solid #333;
-  user-select: none;
-  pointer-events: none; /* biar text bisa diseleksi normal */
-  background: #1e1e1e;
-}
-
 hr {
   border:0;
   background:#e5e5e5;
@@ -2093,6 +2067,7 @@ footer {
 	}
 
 }
+
 
 
 

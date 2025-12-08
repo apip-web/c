@@ -38,30 +38,52 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
+<style>
+/* Base PRE */
+pre {
+  position: relative;
+  padding-left: 48px !important;
+  background: #0a0a0a;
+  color: #eee;
+  border-radius: 6px;
+  border: 1px solid #222;
+  line-height: 1.45;
+  overflow: auto; /* penting, bukan overflow-x */
+  font-family: monospace;
+}
+
+/* Setiap baris */
+pre code .line {
+  display: block;
+  position: relative;
+  padding-left: 8px;
+  counter-increment: line;
+  white-space: pre; /* JANGAN hilang, ini yang jaga baris tidak rusak */
+}
+
+/* Nomor baris */
+pre code .line::before {
+  content: counter(line);
+  position: sticky;   /* STICKY FIX */
+  left: -40px;        /* tetap kiri — tapi sekarang tidak disembunyikan */
+  width: 32px;
+  text-align: right;
+  color: #ff3366;
+  opacity: 0.7;
+  font-size: 0.85em;
+  background: #0a0a0a; /* agar sticky tidak menumpuk teks */
+  padding-right: 6px;
+  display: inline-block;
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("pre").forEach(pre => {
-    
-    // Bungkus pre
-    const wrapper = document.createElement("div");
-    wrapper.className = "code-block";
-    pre.parentNode.insertBefore(wrapper, pre);
-    wrapper.appendChild(pre);
-
-    // Hitung baris dari CSS computed height
-    const code = pre.querySelector("code") || pre;
-    const lines = code.textContent.split("\n").length;
-
-    const ln = document.createElement("div");
-    ln.className = "line-numbers";
-
-    let html = "";
-    for (let i = 1; i <= lines; i++) {
-      html += i + "<br>";
-    }
-    ln.innerHTML = html;
-
-    wrapper.appendChild(ln);
+  document.querySelectorAll("pre > code").forEach(code => {
+    const lines = code.innerHTML.split(/\n/);
+    code.innerHTML = lines.map(line =>
+      `<span class="line">${line || " "}</span>`
+    ).join("");
   });
 });
 </script>

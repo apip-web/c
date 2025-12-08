@@ -42,7 +42,7 @@ end
 /* Line number container */
 pre {
   position: relative;
-  padding-left: 48px !important;
+  
   background: #0a0a0a;
   color: #eee;
   border-radius: 6px;

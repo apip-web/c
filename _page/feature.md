@@ -38,6 +38,17 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("pre > code").forEach(code => {
+    const lines = code.innerHTML.split(/\n/);
+    code.innerHTML = lines.map(line =>
+      `<span class="line">${line || " "}</span>`
+    ).join("");
+  });
+});
+</script>
+
 #### Header 4
 
 *   This is an unordered list following a header.

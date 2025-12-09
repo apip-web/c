@@ -1,13 +1,12 @@
 ---
 layout: default
+title: HTML ESCAPER — NOIR
 ---
-<title>HTML Escaper Noir</title>
 <style>
 body {
   background: #0f0f0f;
   color: #e6e6e6;
   font-family: sans-serif;
-  padding: 30px;
 }
 
 .container {

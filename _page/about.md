@@ -19,7 +19,7 @@ body {
   margin: auto;
   background: #111;
   border-radius: 14px;
-  padding: 25px;
+  padding: 10px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 }
 

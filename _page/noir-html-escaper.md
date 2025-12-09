@@ -1,12 +1,9 @@
----
-layout: default
-title: HTML ESCAPER — NOIR
----
 <style>
 body {
   background: #0f0f0f;
   color: #e6e6e6;
   font-family: sans-serif;
+  padding: 10px;
 }
 
 .container {
@@ -64,10 +61,13 @@ button {
   padding: 10px 16px;
   border-radius: 6px;
   color: white;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   cursor: pointer;
   display: inline-block;
-  transition: background .15s, box-shadow .15s;
+  transition: all 0.4s ease;
 }
 
 button:hover {

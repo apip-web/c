@@ -113,26 +113,16 @@
   margin: 0;
   padding: var(--code-padding);
   overflow: auto;
-  background: transparent;
+  background: red;
   font-family: var(--font-mono);
 }
 
 .code-box pre code {
-  display: block;               /* make code element block-level */
-  white-space: pre;             /* preserve line breaks and spacing */
+  display: block;
+  white-space: pre;
   font-family: var(--font-mono);
   font-size: var(--code-font-size);
   line-height: var(--code-line-height);
-}
-
-/* keep any nested highlight tokens from collapsing whitespace */
-.code-box pre code * {
-  white-space: pre;
-}
-
-/* optional: subtle hover per visual line (if code lines are wrapped into spans) */
-.code-box pre code span:hover {
-  background: rgba(255,255,255,0.02);
 }
 
 code {

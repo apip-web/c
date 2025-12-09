@@ -163,22 +163,47 @@ function minifyCSS() {
 }
 
 function copyOutput(btn) {
-  const text = document.getElementById("output").value;
+  const output = document.getElementById("output");
+  const text = output.value;
 
   navigator.clipboard.writeText(text).then(() => {
+    // buat toast
+    const toast = document.createElement("div");
+    toast.innerText = "Copied!";
+    Object.assign(toast.style, {
+      position: "absolute",
+      top: (output.offsetTop + output.offsetHeight / 2) + "px",
+      left: (output.offsetLeft + output.offsetWidth / 2) + "px",
+      transform: "translate(-50%, -50%)",
+      color: "#ff3366",
+      fontSize: "32px",
+      fontWeight: "bold",
+      background: "rgba(0,0,0,0.5)",
+      padding: "20px 40px",
+      borderRadius: "8px",
+      pointerEvents: "none",
+      opacity: "0",
+      transition: "opacity 0.2s, transform 0.2s",
+      zIndex: 9
+    });
 
-    const originalHTML = btn.innerHTML;
+    document.body.appendChild(toast);
 
-    btn.innerHTML = "Copied";
-
-    // kembalikan setelah 2 detik
+    // muncul dengan animasi
     setTimeout(() => {
-      btn.innerHTML = originalHTML;
+      toast.style.opacity = "1";
+      toast.style.transform = "translate(-50%, -50%) scale(1.1)";
+    }, 10);
+
+    // hilang setelah 2 detik
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translate(-50%, -50%) scale(0.9)";
+      setTimeout(() => document.body.removeChild(toast), 200);
     }, 2000);
 
   }).catch(() => {
-    const out = document.getElementById("output");
-    out.select();
+    output.select();
     document.execCommand("copy");
   });
 }

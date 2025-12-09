@@ -5,9 +5,9 @@ title: Collections
 
 # Collections
 
-## This page shows all posts and pages in this site
+### This page shows all posts and pages in this site
 
-## Pages
+### Pages
 <ul>
   {% for p in site.page %}
     <li>
@@ -16,8 +16,7 @@ title: Collections
   {% endfor %}
 </ul>
 
-## Posts
-<h3>Posts</h3>
+### Posts
   <ul>
     {% for post in site.posts %}
       <li>

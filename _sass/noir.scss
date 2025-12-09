@@ -818,7 +818,7 @@ nav.scrolled {
 	animation: fadeIn 1s ease 1s backwards;
 }
 
-.cta-button, button {
+.cta-button {
 	padding: 18px 40px;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -831,12 +831,12 @@ nav.scrolled {
 	display: inline-block;
 }
 
-.cta-button.primary, button {
+.cta-button.primary {
 	background: var(--accent);
 	color: white;
 }
 
-.cta-button.primary::before, button::before {
+.cta-button.primary::before {
 	content: '';
 	position: absolute;
 	top: 50%;
@@ -849,12 +849,12 @@ nav.scrolled {
 	transition: width 0.6s, height 0.6s;
 }
 
-.cta-button.primary:hover::before, button:hover::before {
+.cta-button.primary:hover::before {
 	width: 300px;
 	height: 300px;
 }
 
-.cta-button.primary:hover, button:hover {
+.cta-button.primary:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 20px 40px rgba(255, 51, 102, 0.3);
 }
@@ -2046,6 +2046,7 @@ footer {
 	}
 
 }
+
 
 
 

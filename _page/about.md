@@ -49,9 +49,9 @@ body {
 }
 
 .header li {
-  font-size: 15px;
+  font-size: 12px;
   color: #bcbcbc;
-  line-height: 1.4;
+  line-height: 1;
 }
 
 .noir-bullet {

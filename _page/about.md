@@ -51,6 +51,7 @@ body {
 .header li {
   font-size: 12px;
   color: #bcbcbc;
+  margin-bottom: 5px;
   line-height: 1;
 }
 

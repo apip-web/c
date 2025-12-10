@@ -267,13 +267,22 @@ nav.scrolled {
 	gap: 20px;
 }
 
-.nav-links li .noir-bullet,
-.nav-links>li { 
-	margin: 0; 
-	padding: 0; 
-	list-style: none;
-	content: none;
+/* ===== FIX NAVBAR LIST ===== */
+.nav-links, .mobile-nav-links {
+  margin: 0;
+  padding: 0;
 }
+
+.nav-links li, .mobile-nav-links li {
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.nav-links li::before, .mobile-nav-links li::before {
+  content: none !important;
+}
+/* ===== FIX END ===== */
 
 .logo-link {
 	display: flex;
@@ -405,4 +414,5 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+
 

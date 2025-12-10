@@ -37,6 +37,7 @@ body {
 	background: var(--bg-dark);
 	color: var(--text-light);
 	overflow-x: hidden;
+	height: 100%;
 }
 
 .wrapper {
@@ -46,7 +47,6 @@ body {
 }
 
 footer {
-  flex: 1; /* Dorong footer ke bawah */
   margin-top: auto;
 }
 
@@ -641,4 +641,5 @@ footer {
 	.footer-bottom {
 		text-align: center;
 }
+
 

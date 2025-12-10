@@ -267,6 +267,14 @@ nav.scrolled {
 	gap: 20px;
 }
 
+.nav-links li .noir-bullet,
+.nav-links>li { 
+	margin: 0; 
+	padding: 0; 
+	list-style: none;
+	content: none;
+}
+
 .logo-link {
 	display: flex;
 	align-items: center;
@@ -397,3 +405,4 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+

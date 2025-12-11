@@ -84,4 +84,8 @@ tags: tutorial
   font-size: 14px;
   line-height: 1.4;
 }
+
+.code-box pre code {
+  white-space: pre-wrap;
+}
 </style>

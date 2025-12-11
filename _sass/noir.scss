@@ -22,8 +22,8 @@ https://templatemo.com/tm-599-noir-fashion
 	--primary: #0a0a0a;
 	--accent: #ff3366;
 	--accent-hover: #ff1149;
-	--text-light: #888;
-	--text-muted: #999;
+	--text-light: #111;
+	--text-muted: #777;
 	--bg-dark: #000;
 	--bg-section: #0a0a0a;
 }
@@ -36,7 +36,7 @@ html {
 body {
 	font-family: 'Arial', Courier, sans-serif;
 	background: var(--bg-dark);
-	color: var(--text-light);
+	color: var(--text-muted);
 	overflow-x: hidden;
 	height: 100%;
 	line-height: 1.4;
@@ -425,7 +425,3 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
-
-
-
-

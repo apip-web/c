@@ -70,17 +70,20 @@ tags: tutorial
   font-family: Arial, Courier;
   color: #888;
   font-size: 15px;
+  line-height: 1.4;
 }
 
 .font-secondary {
   font-family: Roboto Flex, Courier;
   color: #888;
   font-size: 16px;
+  line-height: 1.4;
 }
 
 .font-third {
   font-family: Google Sans Code, Courier;
   color: #888;
   font-size: 14px;
+  line-height: 1.4;
 }
 </style>

@@ -40,6 +40,7 @@ body {
 	overflow-x: hidden;
 	height: 100%;
 	line-height: 1.4;
+	font-size: 15px;
 }
 
 .wrapper {
@@ -169,19 +170,6 @@ margin-left: -20px;
   pointer-events: none;
 }
 
-/* ===== Unordered List Level 2 ===== */
-ul ul li, ol ol li {
-  margin-bottom: 0;
-}
-
-ul ul li::before, ol ol li::before {
-  margin: 0 10px 0 -50px;
-}
-/* ===== Unordered List Level 3 ===== */
-ul ul ul li::before, ol ol ol li::before {
-  margin: 0 10px 0 -80px;
-}
-
 /* ===== Blockquote ===== */
 blockquote {
   color:#777;
@@ -194,7 +182,7 @@ blockquote {
 blockquote:before {
   color:#e6e6e6;
   content:"\201C";
-  font-family:Georgia, serif;
+  font-family: Georgia, serif, sans-serif;
   font-size:84px;
   left:-5px;
   line-height:1;
@@ -205,7 +193,6 @@ blockquote:before {
 /* ===== Tables ===== */
 table {
   margin: 20px auto;
-  border: 1px solid #333;
   width: auto;
   table-layout: auto;
   border-collapse: separate;
@@ -217,7 +204,7 @@ table {
 }
 
 th {
-  background-color: var(--accent);
+  background-color: rgba(255, 51, 102, 0.3);
   color: #ffffff;
   border: none;
   padding: 5px 10px;
@@ -425,3 +412,4 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+

@@ -173,7 +173,7 @@ ul > li {
   width: 10px;
   height: 10px;
   margin-left: -20px;
-  background: #fff;
+  background: linear-gradient(135deg, #000, #ff3366);
   border-radius: 50%;
   box-shadow: 0 0 6px rgba(255,255,255,0.4);
   pointer-events: none;
@@ -424,6 +424,7 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+
 
 
 

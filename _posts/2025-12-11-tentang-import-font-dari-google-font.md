@@ -85,6 +85,10 @@ tags: tutorial
   line-height: 1.4;
 }
 
+body {
+	color: var(--text-light);
+}
+
 .code-box pre code {
   white-space: break-spaces;
 }

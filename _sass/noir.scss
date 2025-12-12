@@ -311,13 +311,14 @@ nav.scrolled {
 	margin-right: 10px;
 }
 
-.logo-text {
-	font-size: 28px;
-	font-weight: 900;
-	letter-spacing: -2px;
-	background: linear-gradient(135deg, #000, #ff3366);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+#navbar .logo-link .logo-text {
+    font-family: 'Roboto Flex', sans-serif; /* pastikan sama */
+    font-weight: 900;                       /* paksa agar sama */
+    font-size: 28px;                        /* ukuran sama */
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, #000, #ff3366);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .menu-toggle {
@@ -424,6 +425,7 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+
 
 
 

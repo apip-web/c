@@ -311,11 +311,11 @@ nav.scrolled {
 	margin-right: 10px;
 }
 
-nav .logo-text {
-    font-size: 28px;
+#navbar .logo-link .logo-text {
+    font-family: 'Roboto Flex', sans-serif;
     font-weight: 900;
+    font-size: 28px;
     letter-spacing: -2px;
-    line-height: 1;
     background: linear-gradient(135deg, #000, #ff3366);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -425,6 +425,7 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+
 
 
 

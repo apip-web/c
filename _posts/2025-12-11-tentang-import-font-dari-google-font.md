@@ -90,6 +90,7 @@ body {
 }
 
 .code-box pre code {
-  white-space: break-spaces;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 </style>

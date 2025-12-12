@@ -313,7 +313,7 @@ nav.scrolled {
 
 .logo-text {
 	font-size: 28px;
-	font-weight: 900;
+	font-variation-settings: "wght" 700, "opsz" 96;
 	letter-spacing: -2px;
 	background: linear-gradient(135deg, #000, #ff3366);
 	-webkit-background-clip: text;
@@ -424,6 +424,7 @@ footer {
 	color: var(--text-muted);
 	font-size: 14px;
 }
+
 
 
 

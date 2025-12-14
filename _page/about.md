@@ -82,6 +82,34 @@ p {
   font-size: 15px;
   box-shadow: 0 0 10px rgba(255,51,102,0.3);
 }
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  background: rgba(0,0,0,0.7);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.lightbox-overlay.visible {
+  opacity: 1;
+}
+
+.lightbox-img {
+  position: fixed;
+  z-index: 1001;
+  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  will-change: transform;
+  opacity: 1;
+  /* Penting: override max-width default */
+  max-width: 100%;
+}
 </style>
 
 <div class="container">
@@ -127,3 +155,113 @@ p {
 </p>
 
 </div>
+
+<script>
+// <![CDATA[
+// Lightbox
+   
+document.addEventListener("DOMContentLoaded", function() {
+  
+  // Pasang 1 event listener di document.body
+  document.body.addEventListener("click", function(event) {
+console.log("Klik terdeteksi pada:", event.target);
+
+    // Cari elemen <img> atau <a> yang punya data="pop"
+    const el = event.target.closest('img[data="pop"], a[data="pop"]');
+    if (!el) return;  // Kalau klik bukan di elemen yang kita inginkan, stop.
+
+    event.preventDefault();
+
+    // Sumber gambar
+    const src = (el.tagName === "A") ? el.getAttribute("href") : el.getAttribute("src");
+
+    // Buat overlay
+    let overlay = document.createElement("div");
+    overlay.classList.add("lightbox-overlay");
+    document.body.appendChild(overlay);
+
+    // Buat cloned image
+    let clonedImg = new Image();
+    clonedImg.src = src;
+    clonedImg.classList.add("lightbox-img");
+    document.body.appendChild(clonedImg);
+
+    // **Cegah scroll**
+    document.body.style.overflow = "hidden";
+
+    // Hitung bounding rect elemen (posisi & ukuran awal)
+    const rect = el.getBoundingClientRect();
+
+    // Atur posisi & ukuran awal agar sama dengan bounding box elemen
+    clonedImg.style.position = "fixed";
+    clonedImg.style.top = rect.top + "px";
+    clonedImg.style.left = rect.left + "px";
+    clonedImg.style.width = rect.width + "px";
+    clonedImg.style.height = rect.height + "px";
+    clonedImg.style.transform = "translate(0,0) scale(1)";
+    clonedImg.style.opacity = "1";
+
+    // Hitung titik tengah elemen & titik tengah viewport
+    const elemCenterX = rect.left + rect.width / 2;
+    const elemCenterY = rect.top + rect.height / 2;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const centerX = viewportWidth / 2;
+    const centerY = viewportHeight / 2;
+
+    // Fungsi menampilkan lightbox (setelah gambar loaded agar rasio diketahui)
+    clonedImg.onload = function() {
+      // Ukuran asli gambar
+      const naturalWidth = clonedImg.naturalWidth;
+      const naturalHeight = clonedImg.naturalHeight;
+
+      // Ukuran akhir: Full width (100vw) dengan rasio asli
+      let finalWidth = viewportWidth; // Selalu penuh
+      let finalHeight = finalWidth / (naturalWidth / naturalHeight);
+
+      // Jika tinggi melebihi layar, batasi dengan max 90vh
+      if (finalHeight > viewportHeight * 0.9) {
+        finalHeight = viewportHeight * 0.9;
+        finalWidth = finalHeight * (naturalWidth / naturalHeight);
+      }
+
+      // Perhitungan skala untuk mempertahankan rasio gambar asli
+      let finalScaleX = finalWidth / rect.width;
+      let finalScaleY = finalHeight / rect.height;
+
+      // Hitung perpindahan agar center boundingRect pindah ke center layar
+      const translateX = centerX - elemCenterX;
+      const translateY = centerY - elemCenterY;
+
+      // Animasi buka (requestAnimationFrame agar posisi awal dirender dulu)
+      requestAnimationFrame(() => {
+        overlay.classList.add("visible");
+        // transform akhir => geser ke tengah + scale
+        clonedImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${finalScaleX}, ${finalScaleY})`;
+      });
+    };
+
+    // Fungsi tutup
+    const closeLightbox = () => {
+      overlay.classList.remove("visible");
+      // Kembalikan transform ke awal => boundingRect
+      clonedImg.style.transform = "translate(0,0) scale(1)";
+      
+      // **Aktifkan kembali scroll setelah lightbox ditutup**
+      document.body.style.overflow = "";
+
+      setTimeout(() => {
+        overlay.remove();
+        clonedImg.remove();
+      }, 300);
+    };
+
+    // Klik overlay / gambar menutup
+    overlay.addEventListener("click", closeLightbox);
+    clonedImg.addEventListener("click", closeLightbox);
+  });
+
+});
+
+// ]]>
+</script>

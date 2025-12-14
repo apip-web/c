@@ -37,6 +37,7 @@ body {
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 20px;
+  font-variation-settings: "wght" 700, "opsz" 96;
 }
 
 .header ul {

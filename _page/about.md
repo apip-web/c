@@ -44,7 +44,7 @@ body {
 }
 
 .header li {
-  font-size: 15px;
+  font-size: 14px;
   color: #bcbcbc;
   margin-bottom: 5px;
   line-height: 1;
@@ -86,10 +86,10 @@ p {
   
   <div class="header">
     <a href="/assets/img/33422003.jpg" target="_blank" rel="noopener">
-  <img src="/assets/img/33422003.webp" alt="Profile Picture" loading="lazy">
+  <img src="/assets/img/33422003.webp" alt="Profile Picture" loading="lazy" data="pop">
 </a>
     <div>
-      <h1>Orang Utan</h1>
+      <h1>Apip</h1>
       <ul>
   <li>Web tinkerer</li>
   <li>Android modder</li>

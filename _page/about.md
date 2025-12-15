@@ -30,7 +30,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border:3px solid rgba(255,255,255,0.08);
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .header h1 {

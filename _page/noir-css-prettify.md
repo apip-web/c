@@ -8,6 +8,7 @@ title: CSS PRETTIFY — NOIR
 body {
   background: #0f0f0f;
   color: #e6e6e6;
+  font-family: sans-serif;
 }
 
 .container {

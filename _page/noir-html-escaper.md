@@ -17,11 +17,11 @@ body {
 
 h1 {
   font-size: 28px;
-  font-family: sans serif;
   letter-spacing: 2px;
   color: #ff3366;
   text-shadow: 0 0 12px #ff3366;
   margin: 25px auto;
+  font-variation-settings: "wght" 750, "opsz" 72;
 }
 
 textarea {

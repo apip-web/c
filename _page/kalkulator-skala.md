@@ -33,6 +33,15 @@ input[type="number"]:focus {
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
 }
 
+input[type="number"]:last-of-type {
+  margin-bottom: 0;
+}
+
+button {
+  display: block;
+  margin: 10px auto 0;
+}
+
 .result {
   margin-top: 30px;
   padding: 15px;

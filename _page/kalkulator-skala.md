@@ -4,27 +4,6 @@ title: Kalkulator Skala Crop
 ---
 
   <style>
-    body {
-  font-family: 'Orbitron', sans-serif;
-  padding: 30px;
-  max-width: 450px;
-  margin: auto;
-  background-color: #0f0f0f;
-  color: #e0e0e0;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-h2 {
-  color: #ff0000; /* Radical Red */
-  text-align: center;
-  margin-bottom: 30px;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
-  letter-spacing: 3px;
-  font-weight: 700;
-  font-size: 28px;
-}
-
 label {
   display: block;
   margin-bottom: 8px;
@@ -52,31 +31,6 @@ input[type="number"]:focus {
   outline: none;
   border-color: #ff0000; /* Radical Red accent */
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-}
-
-button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background-color: #ff0000; /* Radical Red */
-  color: #000000;
-  font-weight: 700;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 10px;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 2px;
-}
-
-button:hover {
-  background-color: #ff3333;
-  transform: scale(1.02);
-}
-
-button:active {
-  background-color: #cc0000;
 }
 
 .result {

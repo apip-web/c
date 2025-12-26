@@ -7,7 +7,7 @@ layout: default
   <p>Ini adalah blog pribadi saya tentang teknologi dan coding.</p>
 
 <div id="lcd-countdown" style="text-align:center; font-family:monospace; margin:40px 0;">
-  <h2 style="font-size:28px; color:#222; margin-bottom:20px;">Countdown to New Year</h2>
+  <h2>Countdown to New Year</h2>
   <div class="lcd-container">
     <div class="lcd-box"><span class="number">0</span><div class="label">DAYS</div></div>
     <div class="lcd-box"><span class="number">0</span><div class="label">HOURS</div></div>

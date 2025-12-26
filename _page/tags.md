@@ -4,7 +4,7 @@ title: Tags
 permalink: /tags/
 ---
 
-<h1>Tags</h1>
+<h1 id="tag-title">All Posts</h1>
 
 <div id="posts">
   {% for post in site.posts %}
@@ -24,16 +24,23 @@ permalink: /tags/
 
 <script>
 function filterByTag(tag) {
+  const title = document.getElementById('tag-title');
+
   document.querySelectorAll('.post').forEach(post => {
     const tags = post.dataset.tags.split(',');
     post.style.display = tags.includes(tag) ? '' : 'none';
   });
+
+  if (tag) {
+    title.textContent = `Showing all posts under "${tag}"`;
+  }
 }
 
 document.addEventListener('click', function (e) {
   const btn = e.target.closest('.tag');
   if (!btn) return;
 
+  e.preventDefault();
   const tag = btn.dataset.tag;
   location.hash = tag;
   filterByTag(tag);
@@ -44,6 +51,14 @@ window.addEventListener('DOMContentLoaded', () => {
   if (hash) {
     filterByTag(hash);
   }
+});
+
+document.getElementById('show-all').addEventListener('click', () => {
+  location.hash = '';
+  document.getElementById('tag-title').textContent = 'All Posts';
+  document.querySelectorAll('.post').forEach(p => {
+    p.style.display = '';
+  });
 });
 </script>
 

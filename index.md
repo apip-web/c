@@ -19,13 +19,35 @@ layout: default
 </div>
 
   <h3>Posts</h3>
-  <ul>
-    {% for post in site.posts %}
-      <li>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a> — {{ post.date | date: "%d %b %Y" }}
-      </li>
-    {% endfor %}
-  </ul>
+<div id="all-posts">
+  {% for post in site.posts %}
+    <article class="post" data-tags="{{ post.tags | join: ',' }}">
+      
+      <!-- Tanggal -->
+      <small class="post-date">{{ post.date | date: "%-d %B %Y" }}</small>
+
+      <!-- Judul -->
+      <h2 class="post-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
+
+      <!-- Tags -->
+      {% if post.tags %}
+        <div class="post-tags">
+          {% for tag in post.tags %}
+            <a class="tag" href="/tags/#{{ tag }}">#{{ tag }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Konten (excerpt/full) -->
+      <div class="post-content">
+        {{ post.content }}
+      </div>
+
+    </article>
+  {% endfor %}
+</div>
 </div>
 
 <script>

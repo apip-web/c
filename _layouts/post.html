@@ -2,38 +2,85 @@
 layout: default
 ---
 
-<!-- Tanggal -->
-<small class="post-date">
-  {{ page.date | date: "%-d %B %Y" }}
-</small>
+<article class="post">
 
-<!-- Judul -->
-<h1 class="post-title">
-  {{ page.title }}
-</h1>
+  <!-- Tanggal -->
+  <small class="post-date">
+    {{ page.date | date: "%-d %B %Y" }}
+  </small>
 
-<!-- Tags -->
-{% if page.tags %}
-  <div class="post-tags">
-    {% for tag in page.tags %}
-      <span class="tag">{{ tag }}</span>
-    {% endfor %}
-  </div>
-{% endif %}
+  <!-- Judul -->
+  <h1 class="post-title">{{ page.title }}</h1>
 
-<!-- Author -->
-<div class="post-author">
-  {% if page.author_image %}
+  <!-- Tags -->
+  {% if page.tags %}
+    <div class="post-tags">
+      {% for tag in page.tags %}
+        <span class="tag">#{{ tag }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Author -->
+  <div class="post-author">
     <img
-      src="{{ page.author_image }}"
-      alt="{{ page.author | default: site.author }}"
+      src="{{ '/assets/img/profile.webp' | relative_url }}"
+      alt="Author"
       class="author-avatar"
     >
-  {% endif %}
-  <span class="author-name">
-    {{ page.author | default: site.author }}
-  </span>
-</div>
+    <span class="author-name">
+      {{ page.author | default: site.author }}
+    </span>
+  </div>
 
-<!-- Konten -->
-{{ content }}
+  <!-- Konten -->
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+</article>
+
+<style>
+.post-date {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.post-title {
+  margin-top: 0.2em;
+  margin-bottom: 0.4em;
+}
+
+.post-tags {
+  margin-bottom: 0.8em;
+}
+
+.post-tags .tag {
+  font-size: 0.85rem;
+  color: #666;
+  margin-right: 6px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.2em;
+}
+
+.author-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-name {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.post-content {
+  margin-top: 1em;
+}
+</style>

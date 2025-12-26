@@ -39,7 +39,7 @@ layout: default
   background:#111;
   border-radius:8px;
   padding:15px 20px;
-  min-width:80px;
+  width: 100px;
   text-align:center;
   box-shadow: inset 0 0 5px #000, 0 0 5px #555;
 }

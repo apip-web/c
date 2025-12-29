@@ -25,22 +25,24 @@ layout: default
 <button id="open-blog">Lihat blog</button>    
     
 <div id="posts" style="display:none;">    
-  {% for post in site.posts %}    
-    <article class="post" data-url="{{ post.url | relative_url }}">    
-      <h2 class="post-title">    
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>    
-      </h2>    
-    
-      <div class="post-excerpt">    
-        {{ post.excerpt }}    
-      </div>    
-    
-<div class="post-content" style="display:none;">
-  {% include post-meta.html post=post %}
-</div>
+{% for post in site.posts %}
+  <article class="post" data-url="{{ post.url | relative_url }}">
 
-    </article>    
-  {% endfor %}    
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h2>
+
+    <div class="post-excerpt">
+      {{ post.excerpt }}
+    </div>
+
+    <!-- FULL POST (instant mode) -->
+    <div class="post-content" style="display:none;">
+      {% include post-meta.html post=post %}
+    </div>
+
+  </article>
+{% endfor %}
 </div>    
     
 <script>    

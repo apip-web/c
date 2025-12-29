@@ -8,133 +8,96 @@ layout: default
 
 <hr>
 
-<div id="lcd-countdown" style="text-align:center; margin:40px 0;">
-  <h4>Countdown to New Year</h4>
-  <div class="lcd-container">
-    <div class="lcd-box"><span class="number">0</span><div class="label">DAYS</div></div>
-    <div class="lcd-box"><span class="number">0</span><div class="label">HOURS</div></div>
-    <div class="lcd-box"><span class="number">0</span><div class="label">MINUTES</div></div>
-    <div class="lcd-box"><span class="number">0</span><div class="label">SECONDS</div></div>
-  </div>
-</div>
+<button id="open-blog">Lihat blog</button>
 
-</div>
-
-<hr>
-
-<button id="show-blog">Lihat Blog</button>
-
-<div id="posts" hidden>
+<div id="posts" style="display:none;">
   {% for post in site.posts %}
-  <article class="post" data-url="{{ post.url | relative_url }}">
-    <h2 class="post-title">
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    </h2>
+    <article class="post" data-url="{{ post.url | relative_url }}">
+      <h2 class="post-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
 
-    <div class="post-excerpt">
-      {{ post.excerpt }}
-    </div>
+      <div class="post-excerpt">
+        {{ post.excerpt }}
+      </div>
 
-    <div class="post-content" hidden>
-      {{ post.content }}
-    </div>
-  </article>
+      <div class="post-content" style="display:none;">
+        {{ post.content }}
+      </div>
+    </article>
   {% endfor %}
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('show-blog');
+  const btn = document.getElementById('open-blog');
   const postsWrap = document.getElementById('posts');
-  const posts = [...document.querySelectorAll('.post')];
+  const posts = document.querySelectorAll('.post');
 
   function showHome() {
-    btn.hidden = false;
-    postsWrap.hidden = true;
+    btn.style.display = '';
+    postsWrap.style.display = 'none';
 
     posts.forEach(p => {
-      p.hidden = false;
-      p.querySelector('.post-content').hidden = true;
-      p.querySelector('.post-excerpt').hidden = false;
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
+      p.style.display = '';
     });
   }
 
   function showList() {
-    btn.hidden = true;
-    postsWrap.hidden = false;
-
-    posts.forEach(p => {
-      p.hidden = false;
-      p.querySelector('.post-content').hidden = true;
-      p.querySelector('.post-excerpt').hidden = false;
-    });
+    btn.style.display = 'none';
+    postsWrap.style.display = '';
   }
 
   function showPost(url) {
-    btn.hidden = true;
-    postsWrap.hidden = false;
+    showList();
 
     posts.forEach(p => {
       const isTarget = p.dataset.url === url;
-      p.hidden = !isTarget;
-      p.querySelector('.post-content').hidden = !isTarget;
-      p.querySelector('.post-excerpt').hidden = isTarget;
+      p.style.display = isTarget ? '' : 'none';
+      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';
+      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
     });
   }
 
-  // Tombol "Lihat Blog"
+  // klik tombol "lihat blog"
   btn.addEventListener('click', () => {
+    history.pushState({ view: 'list' }, '', '/');
     showList();
-    history.pushState({ page: 'list' }, '', '/blog');
   });
 
-  // Klik judul post
+  // klik judul post
   posts.forEach(post => {
     const link = post.querySelector('.post-title a');
-
     link.addEventListener('click', e => {
       e.preventDefault();
-      showPost(post.dataset.url);
-      history.pushState({ page: 'post', url: post.dataset.url }, '', post.dataset.url);
+      const url = post.dataset.url;
+      history.pushState({ view: 'post', url }, '', url);
+      showPost(url);
     });
   });
 
-  // BACK / FORWARD
+  // tombol back / forward
   window.addEventListener('popstate', e => {
     if (!e.state) {
       showHome();
       return;
     }
 
-    if (e.state.page === 'list') showList();
-    if (e.state.page === 'post') showPost(e.state.url);
+    if (e.state.view === 'list') {
+      showList();
+    }
+
+    if (e.state.view === 'post') {
+      showPost(e.state.url);
+    }
   });
 
-  // INITIAL LOAD
-  if (location.pathname !== '/' && location.pathname !== '/blog') {
-    showPost(location.pathname);
-  } else {
-    showHome();
-  }
+  // kondisi awal
+  showHome();
 });
 </script>
-
-<style>
-.post-title a {
-  cursor: pointer;
-  color: #ff3366;
-  text-decoration: none;
-}
-
-.post-excerpt {
-  color: #555;
-  margin-bottom: 1em;
-}
-
-.post-content {
-  margin-bottom: 1em;
-}
-</style>
 
 <script>
 const lcdBoxes = document.querySelectorAll('.lcd-box .number');

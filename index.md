@@ -22,9 +22,9 @@ layout: default
 
 <hr>
 
-<button id="show-blog">Lihat blog</button>
+<button id="open-blog">Lihat blog</button>
 
-<div id="blog" hidden>
+<div id="posts" style="display:none;">
   {% for post in site.posts %}
     <article class="post" data-url="{{ post.url | relative_url }}">
       <h2 class="post-title">
@@ -35,7 +35,7 @@ layout: default
         {{ post.excerpt }}
       </div>
 
-      <div class="post-content" hidden>
+      <div class="post-content" style="display:none;">
         {{ post.content }}
       </div>
     </article>

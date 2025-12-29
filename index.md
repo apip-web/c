@@ -54,44 +54,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = post.querySelector('.post-content');
     const excerpt = post.querySelector('.post-excerpt');
 
-    // pastikan awalnya hanya excerpt yang tampil
-    content.style.display = 'none';
-    excerpt.style.display = '';
+    // awalnya hanya excerpt yang tampil
+    posts.forEach(p => {
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
+      p.style.display = ''; // pastikan semua post terlihat
+    });
 
     link.addEventListener('click', (e) => {
-      e.preventDefault(); // cegah reload
-      const url = link.getAttribute('href');
+      e.preventDefault();
 
       posts.forEach(p => {
         const c = p.querySelector('.post-content');
         const ex = p.querySelector('.post-excerpt');
 
         if (p === post) {
-          c.style.display = '';
-          ex.style.display = 'none';
+          p.style.display = ''; // tampilkan post yang diklik
+          c.style.display = ''; // tampilkan full content
+          ex.style.display = 'none'; // sembunyikan excerpt
         } else {
+          p.style.display = 'none'; // sembunyikan post lain
           c.style.display = 'none';
           ex.style.display = '';
         }
       });
 
-      // update URL tapi tanpa reload
-      history.pushState(null, '', url);
+      history.pushState(null, '', link.getAttribute('href'));
     });
   });
 
-  // Tangani tombol back / forward
   window.addEventListener('popstate', () => {
     const path = location.pathname;
+
     posts.forEach(post => {
       const url = post.querySelector('.post-title a').getAttribute('href');
       const content = post.querySelector('.post-content');
       const excerpt = post.querySelector('.post-excerpt');
 
       if (url === path) {
+        post.style.display = '';
         content.style.display = '';
         excerpt.style.display = 'none';
       } else {
+        post.style.display = '';
         content.style.display = 'none';
         excerpt.style.display = '';
       }

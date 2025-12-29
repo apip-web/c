@@ -18,36 +18,86 @@ layout: default
   </div>
 </div>
 
-  <h3>Posts</h3>
-<div id="all-posts">
-  {% for post in site.posts %}
-    <article class="post" data-tags="{{ post.tags | join: ',' }}">
-      
-      <!-- Tanggal -->
-      <small class="post-date">{{ post.date | date: "%-d %B %Y" }}</small>
+<hr>
 
+<div id="posts">
+  {% for post in site.posts %}
+    <article class="post" data-url="{{ post.url | relative_url }}" data-tags="{{ post.tags | join: ',' }}">
       <!-- Judul -->
       <h2 class="post-title">
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </h2>
 
-      <!-- Tags -->
-      {% if post.tags %}
-        <div class="post-tags">
-          {% for tag in post.tags %}
-            <a class="tag" href="/tags/#{{ tag }}">#{{ tag }}</a>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <!-- Konten (excerpt/full) -->
-      <div class="post-content">
-        {{ post.content }}
+      <!-- Excerpt -->
+      <div class="post-excerpt">
+        {{ post.excerpt }}
       </div>
 
+      <!-- Konten penuh (disembunyikan) -->
+      <div class="post-content" style="display:none;">
+        {{ post.content }}
+      </div>
     </article>
   {% endfor %}
 </div>
+
+<script>
+document.addEventListener('click', function(e) {
+  const link = e.target.closest('.post-title a');
+  if (!link) return;
+
+  e.preventDefault(); // cegah reload
+
+  const article = link.closest('article');
+  const content = article.querySelector('.post-content');
+  const excerpt = article.querySelector('.post-excerpt');
+
+  // toggle konten
+  if (content.style.display === 'none') {
+    content.style.display = '';
+    excerpt.style.display = 'none';
+    history.pushState(null, '', link.getAttribute('href'));
+  } else {
+    content.style.display = 'none';
+    excerpt.style.display = '';
+  }
+});
+
+// handle back/forward browser
+window.addEventListener('popstate', () => {
+  document.querySelectorAll('.post').forEach(post => {
+    const url = post.dataset.url;
+    const content = post.querySelector('.post-content');
+    const excerpt = post.querySelector('.post-excerpt');
+
+    if (location.pathname === url) {
+      content.style.display = '';
+      excerpt.style.display = 'none';
+    } else {
+      content.style.display = 'none';
+      excerpt.style.display = '';
+    }
+  });
+});
+</script>
+
+<style>
+.post-title a {
+  cursor: pointer;
+  color: #ff3366;
+  text-decoration: none;
+}
+
+.post-excerpt {
+  color: #555;
+  margin-bottom: 1em;
+}
+
+.post-content {
+  margin-bottom: 1em;
+}
+</style>
+
 </div>
 
 <script>

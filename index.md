@@ -77,43 +77,45 @@ document.addEventListener('DOMContentLoaded', () => {
     posts.forEach(p => {
       const isTarget = p.dataset.url === url;
       p.hidden = !isTarget;
-
       p.querySelector('.post-content').hidden = !isTarget;
       p.querySelector('.post-excerpt').hidden = isTarget;
     });
   }
 
-  // tombol "lihat blog"
+  // Tombol "Lihat Blog"
   btn.addEventListener('click', () => {
-    history.pushState({ view: 'list' }, '', '/');
     showList();
+    history.pushState({ page: 'list' }, '', '/blog');
   });
 
-  // klik judul post
+  // Klik judul post
   posts.forEach(post => {
-    const link = post.querySelector('a');
+    const link = post.querySelector('.post-title a');
+
     link.addEventListener('click', e => {
       e.preventDefault();
-      const url = post.dataset.url;
-      history.pushState({ view: 'post', url }, '', url);
-      showPost(url);
+      showPost(post.dataset.url);
+      history.pushState({ page: 'post', url: post.dataset.url }, '', post.dataset.url);
     });
   });
 
   // BACK / FORWARD
   window.addEventListener('popstate', e => {
-    if (!e.state || e.state.view === 'home') {
+    if (!e.state) {
       showHome();
-    } else if (e.state.view === 'list') {
-      showList();
-    } else if (e.state.view === 'post') {
-      showPost(e.state.url);
+      return;
     }
+
+    if (e.state.page === 'list') showList();
+    if (e.state.page === 'post') showPost(e.state.url);
   });
 
-  // INIT
-  history.replaceState({ view: 'home' }, '', location.pathname);
-  showHome();
+  // INITIAL LOAD
+  if (location.pathname !== '/' && location.pathname !== '/blog') {
+    showPost(location.pathname);
+  } else {
+    showHome();
+  }
 });
 </script>
 

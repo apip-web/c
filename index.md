@@ -53,15 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
     postsWrap.style.display = 'none';
 
     posts.forEach(p => {
+      p.style.display = '';
       p.querySelector('.post-content').style.display = 'none';
       p.querySelector('.post-excerpt').style.display = '';
-      p.style.display = '';
     });
   }
 
   function showList() {
     btn.style.display = 'none';
     postsWrap.style.display = '';
+
+    posts.forEach(p => {
+      p.style.display = '';
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
+    });
   }
 
   function showPost(url) {
@@ -75,10 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // klik tombol "lihat blog"
+  // tombol lihat blog
   btn.addEventListener('click', () => {
-    history.pushState({ view: 'list' }, '', '/');
-    showList();
+    location.hash = 'blog';
   });
 
   // klik judul post
@@ -86,30 +91,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const link = post.querySelector('.post-title a');
     link.addEventListener('click', e => {
       e.preventDefault();
-      const url = post.dataset.url;
-      history.pushState({ view: 'post', url }, '', url);
-      showPost(url);
+      history.pushState(null, '', post.dataset.url);
+      showPost(post.dataset.url);
     });
   });
 
-  // tombol back / forward
-  window.addEventListener('popstate', e => {
-    if (!e.state) {
-      showHome();
+  // router ringan
+  function router() {
+    const path = location.pathname;
+    const hash = location.hash;
+
+    if (hash === '#blog') {
+      showList();
       return;
     }
 
-    if (e.state.view === 'list') {
-      showList();
+    const post = [...posts].find(p => p.dataset.url === path);
+    if (post) {
+      showPost(path);
+      return;
     }
 
-    if (e.state.view === 'post') {
-      showPost(e.state.url);
-    }
-  });
+    showHome();
+  }
 
-  // kondisi awal
-  showHome();
+  window.addEventListener('popstate', router);
+  window.addEventListener('hashchange', router);
+
+  router(); // initial load
 });
 </script>
 

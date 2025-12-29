@@ -8,6 +8,20 @@ layout: default
 
 <hr>
 
+<div id="lcd-countdown" style="text-align:center; margin:40px 0;">
+  <h4>Countdown to New Year</h4>
+  <div class="lcd-container">
+    <div class="lcd-box"><span class="number">0</span><div class="label">DAYS</div></div>
+    <div class="lcd-box"><span class="number">0</span><div class="label">HOURS</div></div>
+    <div class="lcd-box"><span class="number">0</span><div class="label">MINUTES</div></div>
+    <div class="lcd-box"><span class="number">0</span><div class="label">SECONDS</div></div>
+  </div>
+</div>
+
+</div>
+
+<hr>
+
 <button id="open-blog">Lihat blog</button>
 
 <div id="posts" style="display:none;">

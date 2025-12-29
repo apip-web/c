@@ -44,71 +44,71 @@ layout: default
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('show-blog');
-  const blog = document.getElementById('blog');
+  const btn = document.getElementById('open-blog');
+  const postsWrap = document.getElementById('posts');
   const posts = document.querySelectorAll('.post');
 
   function showHome() {
-    btn.hidden = false;
-    blog.hidden = true;
+    btn.style.display = '';
+    postsWrap.style.display = 'none';
+
     posts.forEach(p => {
-      p.hidden = false;
-      p.querySelector('.post-content').hidden = true;
-      p.querySelector('.post-excerpt').hidden = false;
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
+      p.style.display = '';
     });
   }
 
   function showList() {
-    btn.hidden = true;
-    blog.hidden = false;
-    posts.forEach(p => {
-      p.hidden = false;
-      p.querySelector('.post-content').hidden = true;
-      p.querySelector('.post-excerpt').hidden = false;
-    });
+    btn.style.display = 'none';
+    postsWrap.style.display = '';
   }
 
   function showPost(url) {
-    btn.hidden = true;
-    blog.hidden = false;
+    showList();
 
     posts.forEach(p => {
       const isTarget = p.dataset.url === url;
-      p.hidden = !isTarget;
-      p.querySelector('.post-content').hidden = !isTarget;
-      p.querySelector('.post-excerpt').hidden = isTarget;
+      p.style.display = isTarget ? '' : 'none';
+      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';
+      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
     });
   }
 
-  // Klik tombol
+  // klik tombol "lihat blog"
   btn.addEventListener('click', () => {
-    history.pushState({ page: 'list' }, '', '#blog');
+    history.pushState({ view: 'list' }, '', '/');
     showList();
   });
 
-  // Klik judul post
+  // klik judul post
   posts.forEach(post => {
     const link = post.querySelector('.post-title a');
     link.addEventListener('click', e => {
       e.preventDefault();
-      history.pushState(
-        { page: 'post', url: post.dataset.url },
-        '',
-        post.dataset.url
-      );
-      showPost(post.dataset.url);
+      const url = post.dataset.url;
+      history.pushState({ view: 'post', url }, '', url);
+      showPost(url);
     });
   });
 
-  // BACK / FORWARD
+  // tombol back / forward
   window.addEventListener('popstate', e => {
-    if (!e.state) return showHome();
-    if (e.state.page === 'list') return showList();
-    if (e.state.page === 'post') return showPost(e.state.url);
+    if (!e.state) {
+      showHome();
+      return;
+    }
+
+    if (e.state.view === 'list') {
+      showList();
+    }
+
+    if (e.state.view === 'post') {
+      showPost(e.state.url);
+    }
   });
 
-  // INITIAL STATE
-  history.replaceState({ page: 'home' }, '', location.pathname);
+  // kondisi awal
   showHome();
 });
 </script>

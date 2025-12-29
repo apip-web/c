@@ -24,7 +24,7 @@ layout: default
 
 <button id="open-blog">Lihat blog</button>
 
-<div id="posts" style="display:none;">
+<div id="posts" hidden>
   {% for post in site.posts %}
     <article class="post" data-url="{{ post.url | relative_url }}">
       <h2 class="post-title">
@@ -35,7 +35,7 @@ layout: default
         {{ post.excerpt }}
       </div>
 
-      <div class="post-content" style="display:none;">
+      <div class="post-content" hidden>
         {{ post.content }}
       </div>
     </article>
@@ -49,33 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const posts = document.querySelectorAll('.post');
 
   function showHome() {
-    btn.style.display = '';
-    postsWrap.style.display = 'none';
-
+    btn.hidden = false;
+    postsWrap.hidden = true;
     posts.forEach(p => {
-      p.querySelector('.post-content').style.display = 'none';
-      p.querySelector('.post-excerpt').style.display = '';
-      p.style.display = '';
+      p.hidden = false;
+      p.querySelector('.post-content').hidden = true;
+      p.querySelector('.post-excerpt').hidden = false;
     });
   }
 
   function showList() {
-    btn.style.display = 'none';
-    postsWrap.style.display = '';
-  }
-
-  function showPost(url) {
-    showList();
-
+    btn.hidden = true;
+    postsWrap.hidden = false;
     posts.forEach(p => {
-      const isTarget = p.dataset.url === url;
-      p.style.display = isTarget ? '' : 'none';
-      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';
-      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
+      p.hidden = false;
+      p.querySelector('.post-content').hidden = true;
+      p.querySelector('.post-excerpt').hidden = false;
     });
   }
 
-  // klik tombol "lihat blog"
+  function showPost(url) {
+    btn.hidden = true;
+    postsWrap.hidden = false;
+
+    posts.forEach(p => {
+      const match = p.dataset.url === url;
+      p.hidden = !match;
+      p.querySelector('.post-content').hidden = !match;
+      p.querySelector('.post-excerpt').hidden = match;
+    });
+  }
+
+  // klik tombol
   btn.addEventListener('click', () => {
     history.pushState({ view: 'list' }, '', '/');
     showList();
@@ -92,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // tombol back / forward
+  // back / forward
   window.addEventListener('popstate', e => {
     if (!e.state) {
       showHome();
@@ -108,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // kondisi awal
+  // initial state
   showHome();
 });
 </script>

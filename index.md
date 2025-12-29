@@ -22,37 +22,37 @@ layout: default
 
 <hr>
 
-<button id="open-blog">Lihat blog</button>
+<button id="show-blog">Lihat Blog</button>
 
 <div id="posts" hidden>
   {% for post in site.posts %}
-    <article class="post" data-url="{{ post.url | relative_url }}">
-      <h2 class="post-title">
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      </h2>
+  <article class="post" data-url="{{ post.url | relative_url }}">
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h2>
 
-      <div class="post-excerpt">
-        {{ post.excerpt }}
-      </div>
+    <div class="post-excerpt">
+      {{ post.excerpt }}
+    </div>
 
-      <div class="post-content" hidden>
-        {{ post.content }}
-      </div>
-    </article>
+    <div class="post-content" hidden>
+      {{ post.content }}
+    </div>
+  </article>
   {% endfor %}
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('open-blog');
+  const btn = document.getElementById('show-blog');
   const postsWrap = document.getElementById('posts');
   const posts = document.querySelectorAll('.post');
 
-  function showHome() {
+  function showButton() {
     btn.hidden = false;
     postsWrap.hidden = true;
     posts.forEach(p => {
-      p.hidden = false;
+      p.hidden = true;
       p.querySelector('.post-content').hidden = true;
       p.querySelector('.post-excerpt').hidden = false;
     });
@@ -68,53 +68,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function showPost(url) {
+  function showPost(targetUrl) {
     btn.hidden = true;
     postsWrap.hidden = false;
 
     posts.forEach(p => {
-      const match = p.dataset.url === url;
-      p.hidden = !match;
-      p.querySelector('.post-content').hidden = !match;
-      p.querySelector('.post-excerpt').hidden = match;
+      const isTarget = p.dataset.url === targetUrl;
+      p.hidden = !isTarget;
+      p.querySelector('.post-content').hidden = !isTarget;
+      p.querySelector('.post-excerpt').hidden = isTarget;
     });
   }
 
-  // klik tombol
+  // INIT
+  showButton();
+  history.replaceState({ view: 'button' }, '', location.pathname);
+
+  // Klik tombol
   btn.addEventListener('click', () => {
-    history.pushState({ view: 'list' }, '', '/');
     showList();
+    history.pushState({ view: 'list' }, '', '/');
   });
 
-  // klik judul post
+  // Klik judul post
   posts.forEach(post => {
     const link = post.querySelector('.post-title a');
     link.addEventListener('click', e => {
       e.preventDefault();
       const url = post.dataset.url;
-      history.pushState({ view: 'post', url }, '', url);
       showPost(url);
+      history.pushState({ view: 'post', url }, '', url);
     });
   });
 
-  // back / forward
+  // BACK / FORWARD
   window.addEventListener('popstate', e => {
-    if (!e.state) {
-      showHome();
-      return;
-    }
-
-    if (e.state.view === 'list') {
+    const state = e.state;
+    if (!state || state.view === 'button') {
+      showButton();
+    } else if (state.view === 'list') {
       showList();
-    }
-
-    if (e.state.view === 'post') {
-      showPost(e.state.url);
+    } else if (state.view === 'post') {
+      showPost(state.url);
     }
   });
-
-  // initial state
-  showHome();
 });
 </script>
 

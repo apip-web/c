@@ -43,105 +43,25 @@ layout: default
 
   </article>
 {% endfor %}
-</div>    
-    
-<script>    
-document.addEventListener('DOMContentLoaded', () => {    
-  const btn = document.getElementById('open-blog');    
-  const postsWrap = document.getElementById('posts');    
-  const posts = document.querySelectorAll('.post');    
-    
-  function showHome() {    
-    btn.style.display = '';    
-    postsWrap.style.display = 'none';    
-    
-    posts.forEach(p => {    
-      p.style.display = '';    
-      p.querySelector('.post-content').style.display = 'none';    
-      p.querySelector('.post-excerpt').style.display = '';    
-    });    
-  }    
-    
-  function showList() {    
-    btn.style.display = 'none';    
-    postsWrap.style.display = '';    
-    
-    posts.forEach(p => {    
-      p.style.display = '';    
-      p.querySelector('.post-content').style.display = 'none';    
-      p.querySelector('.post-excerpt').style.display = '';    
-    });    
-  }    
-    
-  function showPost(url) {    
-    showList();    
-    
-    posts.forEach(p => {    
-      const isTarget = p.dataset.url === url;    
-      p.style.display = isTarget ? '' : 'none';    
-      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';    
-      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';    
-    });    
-  }    
-    
-  // tombol lihat blog    
-  btn.addEventListener('click', () => {    
-    location.hash = 'blog';    
-  });    
-    
-  // klik judul post    
-  posts.forEach(post => {    
-    const link = post.querySelector('.post-title a');    
-    link.addEventListener('click', e => {    
-      e.preventDefault();    
-      history.pushState(null, '', post.dataset.url);    
-      showPost(post.dataset.url);    
-    });    
-  });    
-    
-  // router ringan    
-  function router() {    
-    const path = location.pathname;    
-    const hash = location.hash;    
-    
-    if (hash === '#blog') {    
-      showList();    
-      return;    
-    }    
-    
-    const post = [...posts].find(p => p.dataset.url === path);    
-    if (post) {    
-      showPost(path);    
-      return;    
-    }    
-    
-    showHome();    
-  }    
-    
-  window.addEventListener('popstate', router);    
-  window.addEventListener('hashchange', router);    
-    
-  router(); // initial load    
-});    
-</script>    
-    
-<script>    
-const lcdBoxes = document.querySelectorAll('.lcd-box .number');    
-    
-function updateLCDCountdown() {    
-  const now = new Date();    
-  const nextYear = new Date(now.getFullYear()+1,0,1);    
-  const diff = nextYear - now;    
-    
-  const days = Math.floor(diff / (1000*60*60*24));    
-  const hours = Math.floor((diff/(1000*60*60)) % 24);    
-  const minutes = Math.floor((diff/(1000*60)) % 60);    
-  const seconds = Math.floor((diff/1000) % 60);    
-    
-  const values = [days,hours,minutes,seconds];    
-  lcdBoxes.forEach((el,i)=> el.textContent = values[i]);    
-}    
-    
-updateLCDCountdown();    
-setInterval(updateLCDCountdown,1000);    
+</div>
+
+<script>
+const lcdBoxes = document.querySelectorAll('.lcd-box .number');
+
+function updateLCDCountdown() {
+  const now = new Date();
+  const nextYear = new Date(now.getFullYear()+1,0,1);
+  const diff = nextYear - now;
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60)) % 24);
+  const minutes = Math.floor((diff/(1000*60)) % 60);
+  const seconds = Math.floor((diff/1000) % 60);
+
+  const values = [days,hours,minutes,seconds];
+  lcdBoxes.forEach((el,i)=> el.textContent = values[i]);
+}
+
+updateLCDCountdown();
+setInterval(updateLCDCountdown,1000);
 </script>

@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('open-blog');
   const postsWrap = document.getElementById('posts');
-  const posts = document.querySelectorAll('.post');
 
-  if (!btn || !postsWrap || !posts.length) return;
+  // ❗ BUKAN HOMEPAGE → STOP
+  if (!btn || !postsWrap) return;
+
+  const posts = document.querySelectorAll('.post');
 
   function showHome() {
     btn.style.display = '';
@@ -19,12 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function showList() {
     btn.style.display = 'none';
     postsWrap.style.display = '';
-
-    posts.forEach(p => {
-      p.style.display = '';
-      p.querySelector('.post-content').style.display = 'none';
-      p.querySelector('.post-excerpt').style.display = '';
-    });
   }
 
   function showPost(url) {
@@ -37,6 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
       p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
     });
   }
+
+  btn.addEventListener('click', () => {
+    location.hash = 'blog';
+  });
+
+  posts.forEach(post => {
+    const link = post.querySelector('a');
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      history.pushState({ post: post.dataset.url }, '', post.dataset.url);
+      showPost(post.dataset.url);
+    });
+  });
 
   function router() {
     const path = location.pathname;
@@ -55,18 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showHome();
   }
-
-  btn.addEventListener('click', () => {
-    location.hash = 'blog';
-  });
-
-  posts.forEach(post => {
-    post.querySelector('a').addEventListener('click', e => {
-      e.preventDefault();
-      history.pushState(null, '', post.dataset.url);
-      showPost(post.dataset.url);
-    });
-  });
 
   window.addEventListener('popstate', router);
   window.addEventListener('hashchange', router);

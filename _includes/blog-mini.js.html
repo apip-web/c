@@ -22,70 +22,90 @@
 {% endfor %}
 </div>
 
-<script>
-// Deklarasikan variabel di scope luar
-let btn, homepage, postsWrap, posts;
-
-document.addEventListener('DOMContentLoaded', () => {
-    btn        = document.getElementById('open-blog');
-    homepage   = document.querySelector('.homepage');
-    postsWrap  = document.getElementById('posts');
-    posts      = document.querySelectorAll('.post');     // ← simpan di sini
-
-    // ... (fungsi showHome, showList, showPost tetap sama)
-
-    // Event listener tombol & judul post tetap sama
-    btn.addEventListener('click', () => {
-        location.hash = 'blog';
-    });
-
-    posts.forEach(post => {
-        const link = post.querySelector('.post-title a');
-        if (!link) return;
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            const url = post.dataset.url;
-            history.pushState(null, '', url);
-            router();                    // ← panggil router setelah pushState
-        });
-    });
-
-    // Router tetap sama, sekarang bisa akses posts
-    function router() {
-        const path = location.pathname;
-        const hash = location.hash;
-
-        if (hash === '#blog') {
-            showList();
-            return;
-        }
-
-        const post = Array.from(posts).find(p => p.dataset.url === path);
-        if (post) {
-            showPost(path);
-            return;
-        }
-
-        showHome();
-    }
-
-    window.addEventListener('popstate', router);
-    window.addEventListener('hashchange', router);
-
-    router(); // initial call
-});
-
-// Optional: pencegatan link internal (seperti saran sebelumnya)
-document.addEventListener('click', e => {
-    const a = e.target.closest('a');
-    if (!a) return;
-
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return;
-
-    e.preventDefault();
-    const target = new URL(href, location.origin).pathname;
-    history.pushState(null, '', target);
-    router();
-});
+<script>  
+document.addEventListener('DOMContentLoaded', () => {  
+  const btn = document.getElementById('open-blog');  
+  const homepage = document.querySelector('.homepage');  
+  const postsWrap = document.getElementById('posts');  
+  const posts = document.querySelectorAll('.post');  
+  
+  function showHome() {  
+    btn.style.display = '';  
+    homepage.style.display = '';  
+    postsWrap.style.display = 'none';  
+  
+    posts.forEach(p => {  
+      p.style.display = '';  
+      p.querySelector('.post-content').style.display = 'none';  
+      p.querySelector('.post-excerpt').style.display = '';  
+      const titleLink = p.querySelector('.post-title a');  
+      if (titleLink) titleLink.style.display = '';  
+    });  
+  }  
+  
+  function showList() {  
+    btn.style.display = 'none';  
+    homepage.style.display = 'none';  
+    postsWrap.style.display = '';  
+  
+    posts.forEach(p => {  
+      p.style.display = '';  
+      p.querySelector('.post-content').style.display = 'none';  
+      p.querySelector('.post-excerpt').style.display = '';  
+      const titleLink = p.querySelector('.post-title a');  
+      if (titleLink) titleLink.style.display = '';  
+    });  
+  }  
+  
+  function showPost(url) {  
+    showList();  
+    posts.forEach(p => {  
+      const isTarget = p.dataset.url === url;  
+      p.style.display = isTarget ? '' : 'none';  
+      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';  
+      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';  
+      const titleLink = p.querySelector('.post-title a');  
+      if (titleLink) titleLink.style.display = isTarget ? 'none' : '';  
+    });  
+  }  
+  
+  // tombol lihat blog → sembunyikan homepage  
+  btn.addEventListener('click', () => {  
+    location.hash = 'blog';  
+  });  
+  
+  // klik judul post → tampilkan post  
+  posts.forEach(post => {  
+    const link = post.querySelector('.post-title a');  
+    link.addEventListener('click', e => {  
+      e.preventDefault();  
+      history.pushState(null, '', post.dataset.url);  
+      showPost(post.dataset.url);  
+    });  
+  });  
+  
+  // router SPA  
+function router() {  
+    const path = location.pathname;  
+    const hash = location.hash;  
+  
+    if (hash === '#blog') {  
+      showList();  
+      return;  
+    }  
+  
+    const post = [...posts].find(p => p.dataset.url === path);  
+    if (post) {  
+      showPost(path);  
+      return;  
+    }  
+  
+    showHome();  
+  }  
+  
+  window.addEventListener('popstate', router);  
+  window.addEventListener('hashchange', router);  
+  
+  router(); // initial load  
+});  
 </script>

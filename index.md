@@ -62,15 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   function showPost(url) {
-    showList();
+  showList();
+  
+  posts.forEach(p => {
+    const isTarget = p.dataset.url === url;
     
-    posts.forEach(p => {    
-      const isTarget = p.dataset.url === url;    
-      p.style.display = isTarget ? '' : 'none';    
-      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';    
-      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';    
-    });    
-  }    
+    p.style.display = isTarget ? '' : 'none';
+    
+    const excerpt = p.querySelector('.post-excerpt');
+    const content = p.querySelector('.post-content');
+    const titleLink = p.querySelector('.post-title a');
+
+    if (excerpt) excerpt.style.display = isTarget ? 'none' : '';
+    if (content) content.style.display = isTarget ? '' : 'none';
+    if (titleLink) titleLink.style.display = isTarget ? 'none' : '';
+  });
+}
     
   // tombol lihat blog    
   btn.addEventListener('click', () => {    

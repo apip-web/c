@@ -41,11 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = p.querySelector('.post-content');
     const titleLink = p.querySelector('.post-title a');
 
-    if (excerpt) excerpt.style.display = isTarget ? 'none' : '';
-    if (content) content.style.display = isTarget ? '' : 'none';
-    if (titleLink) titleLink.style.display = isTarget ? 'none' : '';
-    
-    p.style.display = isTarget || !isTarget && postsWrap.style.display !== 'none' ? '' : 'none';
+    if (isTarget) {
+      p.style.display = '';         // tampilkan post target
+      if (excerpt) excerpt.style.display = 'none';
+      if (content) content.style.display = '';
+      if (titleLink) titleLink.style.display = 'none';
+    } else {
+      p.style.display = postsWrap.style.display !== 'none' ? '' : 'none'; // tampilkan di list, sembunyikan di post view
+      if (excerpt) excerpt.style.display = '';
+      if (content) content.style.display = 'none';
+      if (titleLink) titleLink.style.display = '';
+    }
   }
 
   function showHome() {
@@ -61,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showPost(url) {
-    showList(); // pastikan wrapper muncul
+    btn.style.display = 'none';
+    postsWrap.style.display = '';
     posts.forEach(p => updatePostDisplay(p, p.dataset.url === url));
   }
 

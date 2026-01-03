@@ -28,22 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const homepage = document.querySelector('.homepage');
   const postsWrap = document.getElementById('posts');
   const posts = document.querySelectorAll('.post');
-  const page404 = document.getElementById('page-404'); // gunakan ID supaya konsisten
+  const page404 = document.getElementById('page-404');
 
+  // === SHOW FUNCTIONS ===
   function showHome() {
     btn.style.display = '';
     homepage.style.display = '';
     postsWrap.style.display = 'none';
-    if (page404) page404.style.display = 'none';
+    page404?.style.display = 'none';
 
     posts.forEach(p => {
       p.style.display = '';
-      const content = p.querySelector('.post-content');
-      const excerpt = p.querySelector('.post-excerpt');
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
       const titleLink = p.querySelector('.post-title a');
-
-      if (content) content.style.display = 'none';
-      if (excerpt) excerpt.style.display = '';
       if (titleLink) titleLink.style.display = '';
     });
   }
@@ -52,34 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.style.display = 'none';
     homepage.style.display = 'none';
     postsWrap.style.display = '';
-    if (page404) page404.style.display = 'none';
+    page404?.style.display = 'none';
 
     posts.forEach(p => {
       p.style.display = '';
-      const content = p.querySelector('.post-content');
-      const excerpt = p.querySelector('.post-excerpt');
+      p.querySelector('.post-content').style.display = 'none';
+      p.querySelector('.post-excerpt').style.display = '';
       const titleLink = p.querySelector('.post-title a');
-
-      if (content) content.style.display = 'none';
-      if (excerpt) excerpt.style.display = '';
       if (titleLink) titleLink.style.display = '';
     });
   }
 
   function showPost(url) {
     showList();
-    if (page404) page404.style.display = 'none';
+    page404?.style.display = 'none';
 
     posts.forEach(p => {
       const isTarget = p.dataset.url === url;
       p.style.display = isTarget ? '' : 'none';
-
-      const content = p.querySelector('.post-content');
-      const excerpt = p.querySelector('.post-excerpt');
+      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';
+      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
       const titleLink = p.querySelector('.post-title a');
-
-      if (content) content.style.display = isTarget ? '' : 'none';
-      if (excerpt) excerpt.style.display = isTarget ? 'none' : '';
       if (titleLink) titleLink.style.display = isTarget ? 'none' : '';
     });
   }
@@ -88,52 +79,56 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.style.display = 'none';
     homepage.style.display = 'none';
     postsWrap.style.display = 'none';
-    if (page404) page404.style.display = '';
+    page404?.style.display = '';
   }
 
-  // tombol lihat blog
-  if (btn) {
-    btn.addEventListener('click', () => {
-      history.pushState(null, '', '#blog');
-      router();
-    });
-  }
-
-  // klik judul post
-  posts.forEach(post => {
-    const link = post.querySelector('.post-title a');
-    if (link) {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        history.pushState(null, '', post.dataset.url);
-        router();
-      });
-    }
+  // === BUTTON EVENTS ===
+  btn.addEventListener('click', () => {
+    history.pushState(null, '', '#blog');
+    router();
   });
 
-  // router SPA
+  posts.forEach(post => {
+    const link = post.querySelector('.post-title a');
+    if (!link) return;
+
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      history.pushState(null, '', post.dataset.url);
+      router();
+    });
+  });
+
+  // === ROUTER SPA ===
   function router() {
     const path = location.pathname;
     const hash = location.hash;
 
+    // 1. Hash blog → show list
     if (hash === '#blog') {
       showList();
       return;
     }
 
+    // 2. Homepage → show home
+    if (path === '/' || path === '/index.html') {
+      showHome();
+      return;
+    }
+
+    // 3. Jika ada post matching → show post
     const post = [...posts].find(p => p.dataset.url === path);
     if (post) {
       showPost(path);
       return;
     }
 
+    // 4. Jika tidak ada → 404
     show404();
   }
 
-  // intercept back/forward
+  // === BACK/FORWARD & INITIAL LOAD ===
   window.addEventListener('popstate', router);
-
-  // initial load / reload
-  router();
+  router(); // initial load
 });
 </script>

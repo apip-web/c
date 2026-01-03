@@ -22,90 +22,96 @@
 {% endfor %}
 </div>
 
-<script>  
-document.addEventListener('DOMContentLoaded', () => {  
-  const btn = document.getElementById('open-blog');  
-  const homepage = document.querySelector('.homepage');  
-  const postsWrap = document.getElementById('posts');  
-  const posts = document.querySelectorAll('.post');  
-  
-  function showHome() {  
-    btn.style.display = '';  
-    homepage.style.display = '';  
-    postsWrap.style.display = 'none';  
-  
-    posts.forEach(p => {  
-      p.style.display = '';  
-      p.querySelector('.post-content').style.display = 'none';  
-      p.querySelector('.post-excerpt').style.display = '';  
-      const titleLink = p.querySelector('.post-title a');  
-      if (titleLink) titleLink.style.display = '';  
-    });  
-  }  
-  
-  function showList() {  
-    btn.style.display = 'none';  
-    homepage.style.display = 'none';  
-    postsWrap.style.display = '';  
-  
-    posts.forEach(p => {  
-      p.style.display = '';  
-      p.querySelector('.post-content').style.display = 'none';  
-      p.querySelector('.post-excerpt').style.display = '';  
-      const titleLink = p.querySelector('.post-title a');  
-      if (titleLink) titleLink.style.display = '';  
-    });  
-  }  
-  
-  function showPost(url) {  
-    showList();  
-    posts.forEach(p => {  
-      const isTarget = p.dataset.url === url;  
-      p.style.display = isTarget ? '' : 'none';  
-      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';  
-      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';  
-      const titleLink = p.querySelector('.post-title a');  
-      if (titleLink) titleLink.style.display = isTarget ? 'none' : '';  
-    });  
-  }  
-  
-  // tombol lihat blog → sembunyikan homepage  
-  btn.addEventListener('click', () => {  
-    location.hash = 'blog';  
-  });  
-  
-  // klik judul post → tampilkan post  
-  posts.forEach(post => {  
-    const link = post.querySelector('.post-title a');  
-    link.addEventListener('click', e => {  
-      e.preventDefault();  
-      history.pushState(null, '', post.dataset.url);  
-      showPost(post.dataset.url);  
-    });  
-  });  
-  
-  // router SPA  
-function router() {  
-    const path = location.pathname;  
-    const hash = location.hash;  
-  
-    if (hash === '#blog') {  
-      showList();  
-      return;  
-    }  
-  
-    const post = [...posts].find(p => p.dataset.url === path);  
-    if (post) {  
-      showPost(path);  
-      return;  
-    }  
-  
-    showHome();  
-  }  
-  
-  window.addEventListener('popstate', router);  
-  window.addEventListener('hashchange', router);  
-  
-  router(); // initial load  
-});  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const btn        = document.getElementById('open-blog');
+  const homepage   = document.querySelector('.homepage');
+  const postsWrap  = document.getElementById('posts');
+  const posts      = document.querySelectorAll('.post');
+
+  // ── fungsi showHome, showList, showPost tetap sama seperti kode awal Anda ──
+
+  // Router yang lebih toleran terhadap trailing slash
+  function router() {
+    let path = location.pathname.replace(/\/$/, '');  // hapus trailing slash
+
+    if (path === '' || path === '/') {
+      showHome();
+      return;
+    }
+
+    // Halaman daftar blog (bisa diganti sesuai keinginan, misal '/posts')
+    if (path === '/blog') {
+      showList();
+      return;
+    }
+
+    // Cari post (toleran trailing slash)
+    const post = Array.from(posts).find(p => {
+      let postPath = p.dataset.url.replace(/\/$/, '');
+      return postPath === path;
+    });
+
+    if (post) {
+      showPost(post.dataset.url);  // gunakan URL asli dari data-url
+      return;
+    }
+
+    // Jika tidak ditemukan → tampilkan homepage atau 404
+    showHome();
+    // Alternatif: document.getElementById('page-404').style.display = '';
+  }
+
+  // 1. Tangkap SEMUA klik link internal
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest('a');
+    if (!a) return;
+
+    const href = a.getAttribute('href');
+    if (!href) return;
+
+    // Lewati link yang jelas bukan navigasi internal
+    if (
+      href.startsWith('http') && !href.startsWith(location.origin) ||
+      href.startsWith('#') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      a.hasAttribute('target') && a.target !== '_self' ||
+      a.hasAttribute('download')
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+
+    const targetPath = new URL(href, location.origin).pathname;
+    history.pushState(null, '', targetPath);
+    router();
+  });
+
+  // 2. Ganti tombol blog menjadi pushState (bukan hash)
+  if (btn) {
+    btn.addEventListener('click', () => {
+      history.pushState(null, '', '/blog');
+      router();
+    });
+  }
+
+  // 3. Klik judul post (tetap dipertahankan, tapi router dipanggil manual)
+  posts.forEach(post => {
+    const link = post.querySelector('.post-title a');
+    if (!link) return;
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const url = post.dataset.url;
+      history.pushState(null, '', url);
+      router();           // penting: panggil router, bukan showPost langsung
+    });
+  });
+
+  window.addEventListener('popstate', router);
+
+  // Initial load
+  router();
+});
 </script>

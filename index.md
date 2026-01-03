@@ -6,9 +6,8 @@ layout: default
 
   <p>Ini adalah blog pribadi saya tentang teknologi dan coding.</p>
 
-</div>
-
 <hr>
 
-<button id="open-blog">Lihat blog</button>    
+</div>
 
+<button id="open-blog">Lihat blog</button>

@@ -71,34 +71,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showHome() {
-    alert('➡️ showHome()');
-
     safe(homepage, el => el.style.display = '');
     safe(btn, el => el.style.display = '');
     safe(postsWrap, el => el.style.display = 'none');
+
+    posts.forEach(p => {
+      p.style.display = 'none';
+      safe(p.querySelector('.post-content'), el => el.style.display = 'none');
+      safe(p.querySelector('.post-excerpt'), el => el.style.display = 'block');
+      safe(p.querySelector('.post-title a'), el => el.style.display = '');
+    });
   }
 
   function showList(push = false) {
-    alert('➡️ showList() | push=' + push);
-
-    safe(homepage, el => el.style.display = 'none');
-    safe(btn, el => el.style.display = 'none');
-    safe(postsWrap, el => el.style.display = 'block');
-
     posts.forEach(p => {
       p.style.display = 'block';
-
       safe(p.querySelector('.post-content'), el => el.style.display = 'none');
       safe(p.querySelector('.post-excerpt'), el => el.style.display = 'block');
       safe(p.querySelector('.post-title a'), el => el.style.display = '');
     });
 
+    safe(homepage, el => el.style.display = 'none');
+    safe(btn, el => el.style.display = 'none');
+    safe(postsWrap, el => el.style.display = 'block');
+
     if (push) history.pushState(null, '', BLOG_PATH);
   }
 
   function showPost(url, push = false) {
-    alert('➡️ showPost(' + url + ')');
-
     safe(homepage, el => el.style.display = 'none');
     safe(btn, el => el.style.display = 'none');
     safe(postsWrap, el => el.style.display = 'block');
@@ -109,32 +109,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const active = p.dataset.url === url;
 
       p.style.display = active ? 'block' : 'none';
-
-      safe(p.querySelector('.post-content'), el =>
-        el.style.display = active ? 'block' : 'none'
-      );
-
-      safe(p.querySelector('.post-excerpt'), el =>
-        el.style.display = active ? 'none' : 'block'
-      );
-
-      safe(p.querySelector('.post-title a'), el =>
-        el.style.display = active ? 'none' : ''
-      );
+      safe(p.querySelector('.post-content'), el => el.style.display = active ? 'block' : 'none');
+      safe(p.querySelector('.post-excerpt'), el => el.style.display = active ? 'none' : 'block');
+      safe(p.querySelector('.post-title a'), el => el.style.display = active ? 'none' : '');
 
       if (active) found = true;
     });
 
     if (push && found) history.pushState(null, '', url);
 
-    if (!found) {
-      alert('❌ post not in DOM → biarkan halaman fisik');
-    }
+    if (!found) console.warn('❌ post not in DOM → biarkan halaman fisik');
   }
 
   function router() {
     const path = location.pathname;
-    alert('🧭 router() | ' + path);
 
     if (posts.length) {
       const post = posts.find(p => p.dataset.url === path);
@@ -147,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btn) {
     btn.addEventListener('click', () => {
-      alert('🖱️ klik: blog');
       showList(true);
     });
   }
@@ -163,11 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('popstate', () => {
-    alert('🔙 popstate');
     router();
   });
 
-  alert('🚀 init');
   router();
+
 });
 </script>

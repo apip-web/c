@@ -27,118 +27,147 @@
 {% endfor %}
 </div>
 
+<style>
+  #spa-home { display: block; }
+  #posts { display: none; }
+</style>
+
+<div id="page-404" style="display:none;">
+    <h1>404</h1>
+    <p>Halaman tidak ditemukan.</p>
+    <a href="/">Kembali ke Home</a>
+</div>
+
+<div id="posts" style="display:none;">
+{% for post in site.posts %}
+  <article class="post" data-url="{{ post.url | relative_url }}">
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h2>
+
+    <div class="post-excerpt">
+      {{ post.excerpt }}
+    </div>
+
+    <div class="post-content" style="display:none;">
+      {% include post-meta.html post=post %}
+    </div>
+  </article>
+{% endfor %}
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const spaHome = document.getElementById('spa-home');
+
+  const homepage  = document.querySelector('.homepage');
+  const btn       = document.getElementById('open-blog');
   const postsWrap = document.getElementById('posts');
-  const posts = [...document.querySelectorAll('.post')];
+  const posts     = [...document.querySelectorAll('.post')];
 
   const BLOG_PATH = '/blog/';
 
-  /* =========================
-     HELPERS
-  ========================= */
-  function clearPostActive() {
-    posts.forEach(p => p.classList.remove('active'));
+  function safe(el, fn) {
+    if (el) fn(el);
   }
 
-  function showHome(push = false) {
-    spaHome.classList.add('active');
-    postsWrap.classList.remove('active');
-    clearPostActive();
+  function showHome() {
+    alert('➡️ showHome()');
 
-    if (push) history.pushState({ view: 'home' }, '', '/');
+    safe(homepage, el => el.style.display = '');
+    safe(btn, el => el.style.display = '');
+    safe(postsWrap, el => el.style.display = 'none');
   }
 
   function showList(push = false) {
-    spaHome.classList.remove('active');
-    postsWrap.classList.add('active');
-    clearPostActive();
+    alert('➡️ showList() | push=' + push);
 
-    if (push) history.pushState({ view: 'list' }, '', BLOG_PATH);
+    safe(homepage, el => el.style.display = 'none');
+    safe(btn, el => el.style.display = 'none');
+    safe(postsWrap, el => el.style.display = 'block');
+
+    posts.forEach(p => {
+      p.style.display = 'block';
+
+      safe(p.querySelector('.post-content'), el => el.style.display = 'none');
+      safe(p.querySelector('.post-excerpt'), el => el.style.display = 'block');
+      safe(p.querySelector('.post-title a'), el => el.style.display = '');
+    });
+
+    if (push) history.pushState(null, '', BLOG_PATH);
   }
 
   function showPost(url, push = false) {
-    spaHome.classList.remove('active');
-    postsWrap.classList.add('active');
+    alert('➡️ showPost(' + url + ')');
+
+    safe(homepage, el => el.style.display = 'none');
+    safe(btn, el => el.style.display = 'none');
+    safe(postsWrap, el => el.style.display = 'block');
 
     let found = false;
+
     posts.forEach(p => {
       const active = p.dataset.url === url;
-      p.classList.toggle('active', active);
-      found ||= active;
+
+      p.style.display = active ? 'block' : 'none';
+
+      safe(p.querySelector('.post-content'), el =>
+        el.style.display = active ? 'block' : 'none'
+      );
+
+      safe(p.querySelector('.post-excerpt'), el =>
+        el.style.display = active ? 'none' : 'block'
+      );
+
+      safe(p.querySelector('.post-title a'), el =>
+        el.style.display = active ? 'none' : ''
+      );
+
+      if (active) found = true;
     });
 
-    if (!found) {
-      showHome(push);
-      return;
-    }
+    if (push && found) history.pushState(null, '', url);
 
-    if (push) history.pushState({ view: 'post', url }, '', url);
+    if (!found) {
+      alert('❌ post not in DOM → biarkan halaman fisik');
+    }
   }
 
-  /* =========================
-     ROUTER
-  ========================= */
   function router() {
     const path = location.pathname;
+    alert('🧭 router() | ' + path);
 
-    // single post
-    const post = posts.find(p => p.dataset.url === path);
-    if (post) {
-      showPost(path, false);
-      return;
+    if (posts.length) {
+      const post = posts.find(p => p.dataset.url === path);
+      if (post) return showPost(path);
     }
 
-    // daftar blog
-    if (path === BLOG_PATH) {
-      showList(false);
-      return;
-    }
-
-    // homepage
-    showHome(false);
+    if (path === BLOG_PATH) return showList();
+    showHome();
   }
 
-  /* =========================
-     LINK INTERCEPT
-  ========================= */
-  document.querySelectorAll('#posts .post-title a').forEach(link => {
-    link.addEventListener('click', e => {
+  if (btn) {
+    btn.addEventListener('click', () => {
+      alert('🖱️ klik: blog');
+      showList(true);
+    });
+  }
+
+  posts.forEach(p => {
+    const a = p.querySelector('.post-title a');
+    if (!a) return;
+
+    a.addEventListener('click', e => {
       e.preventDefault();
-      const url = link.closest('.post').dataset.url;
-      showPost(url, true);
+      showPost(p.dataset.url, true);
     });
   });
 
-  // jika ada tombol lihat blog
-  const btn = document.getElementById('open-blog');
-  if (btn) {
-    btn.addEventListener('click', () => showList(true));
-  }
+  window.addEventListener('popstate', () => {
+    alert('🔙 popstate');
+    router();
+  });
 
-  /* =========================
-     BACK/FORWARD
-  ========================= */
-  window.addEventListener('popstate', router);
-
-  /* =========================
-     INITIAL LOAD
-  ========================= */
+  alert('🚀 init');
   router();
 });
 </script>
-
-<style>
-/* semua view hidden default */
-.spa-root > .view,
-.post {
-  display: none;
-}
-
-/* class active → tampil */
-.spa-root > .view.active,
-.post.active {
-  display: block;
-}
-</style>

@@ -29,83 +29,107 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
   const btn = document.getElementById('open-blog');
-  const spaHome = document.getElementById('spa-home');
+  const homepage = document.querySelector('.homepage');
   const postsWrap = document.getElementById('posts');
   const posts = [...document.querySelectorAll('.post')];
 
-  function hideJekyllContent() {
-    spaHome.style.display = 'none';
+  /* =========================
+     UTIL
+  ========================= */
+  function hideHome() {
+    if (homepage) homepage.style.display = 'none';
+    if (btn) btn.style.display = 'none';
   }
 
-  function showJekyllContent() {
-    spaHome.style.display = '';
+  function showHome() {
+    if (homepage) homepage.style.display = '';
+    if (btn) btn.style.display = '';
+    postsWrap.style.display = 'none';
   }
 
   function resetPosts() {
     posts.forEach(p => {
-      p.style.display = '';
+      p.style.display = 'block';
       p.querySelector('.post-content').style.display = 'none';
-      p.querySelector('.post-excerpt').style.display = '';
+      p.querySelector('.post-excerpt').style.display = 'block';
       const link = p.querySelector('.post-title a');
       if (link) link.style.display = '';
     });
   }
 
-  function showHome() {
-    showJekyllContent();
-    postsWrap.style.display = 'none';
+  /* =========================
+     VIEWS
+  ========================= */
+  function showList(push = false) {
+    hideHome();
+    postsWrap.style.display = 'block';
     resetPosts();
+
+    if (push) {
+      history.pushState({ view: 'list' }, '', '/');
+    }
   }
 
-  function showList() {
-    hideJekyllContent();
-    postsWrap.style.display = '';
-    resetPosts();
-  }
+  function showPost(url, push = false) {
+    hideHome();
+    postsWrap.style.display = 'block';
 
-  function showPost(url) {
-    showList();
+    let found = false;
+
     posts.forEach(p => {
       const active = p.dataset.url === url;
-      p.style.display = active ? '' : 'none';
-      p.querySelector('.post-content').style.display = active ? '' : 'none';
-      p.querySelector('.post-excerpt').style.display = active ? 'none' : '';
+      p.style.display = active ? 'block' : 'none';
+      p.querySelector('.post-content').style.display = active ? 'block' : 'none';
+      p.querySelector('.post-excerpt').style.display = active ? 'none' : 'block';
+
       const link = p.querySelector('.post-title a');
       if (link) link.style.display = active ? 'none' : '';
+
+      if (active) found = true;
     });
+
+    if (push && found) {
+      history.pushState({ view: 'post', url }, '', url);
+    }
+
+    if (!found) showHome();
   }
 
-  // tombol blog
+  /* =========================
+     EVENTS
+  ========================= */
   if (btn) {
     btn.addEventListener('click', () => {
-      history.pushState({}, '', '#blog');
-      showList();
+      showList(true);
     });
   }
 
-  // klik judul post
   posts.forEach(post => {
     const link = post.querySelector('.post-title a');
+    if (!link) return;
+
     link.addEventListener('click', e => {
       e.preventDefault();
-      history.pushState({}, '', post.dataset.url);
-      showPost(post.dataset.url);
+      showPost(post.dataset.url, true);
     });
   });
 
+  /* =========================
+     ROUTER
+  ========================= */
   function router() {
     const path = location.pathname;
-    const hash = location.hash;
+    const post = posts.find(p => p.dataset.url === path);
 
-    if (hash === '#blog') {
-      showList();
+    if (post) {
+      showPost(path, false);
       return;
     }
 
-    const post = posts.find(p => p.dataset.url === path);
-    if (post) {
-      showPost(path);
+    if (path === '/' || path === '') {
+      showHome();
       return;
     }
 
@@ -113,8 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('popstate', router);
-  window.addEventListener('hashchange', router);
 
+  /* =========================
+     INIT
+  ========================= */
   router();
 });
 </script>

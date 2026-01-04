@@ -37,23 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const BLOG_PATH = '/blog/';
 
-  /* =====================
-     VIEW HELPERS
-  ===================== */
-  function hideAll() {
-    homepage.style.display = 'none';
-    btn.style.display = 'none';
+  function showHome() {
+    alert('➡️ showHome()');
+    homepage.style.display = '';
+    btn.style.display = '';
     postsWrap.style.display = 'none';
   }
 
-  function showHome() {
-    hideAll();
-    homepage.style.display = '';
-    btn.style.display = '';
-  }
-
-  function showList() {
-    hideAll();
+  function showList(push = false) {
+    alert('➡️ showList() | push=' + push);
+    homepage.style.display = 'none';
+    btn.style.display = 'none';
     postsWrap.style.display = 'block';
 
     posts.forEach(p => {
@@ -63,10 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const a = p.querySelector('.post-title a');
       if (a) a.style.display = '';
     });
+
+    if (push) {
+      history.pushState(null, '', BLOG_PATH);
+    }
   }
 
-  function showPost(url) {
-    hideAll();
+  function showPost(url, push = false) {
+    alert('➡️ showPost(' + url + ') | push=' + push);
+    homepage.style.display = 'none';
+    btn.style.display = 'none';
     postsWrap.style.display = 'block';
 
     let found = false;
@@ -84,45 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (active) found = true;
     });
 
-    if (!found) showHome();
-  }
-
-  /* =====================
-     ROUTER (URL IS KING)
-  ===================== */
-  function routeByURL() {
-    const path = location.pathname;
-
-    // 1️⃣ single post (prioritas mutlak)
-    const post = posts.find(p => p.dataset.url === path);
-    if (post) {
-      showPost(path);
-      return;
+    if (push && found) {
+      history.pushState(null, '', url);
     }
 
-    // 2️⃣ blog list
-    if (path === BLOG_PATH) {
-      showList();
-      return;
-    }
-
-    // 3️⃣ home
-    if (path === '/' || path === '') {
+    if (!found) {
+      alert('❌ post NOT found → fallback home');
       showHome();
-      return;
     }
-
-    // fallback
-    showHome();
   }
 
-  /* =====================
-     LINK INTERCEPT
-  ===================== */
-  btn.addEventListener('click', e => {
-    e.preventDefault();
-    history.pushState(null, '', BLOG_PATH);
-    routeByURL();
+  btn.addEventListener('click', () => {
+    alert('🖱️ klik: Lihat Blog');
+    showList(true);
   });
 
   posts.forEach(post => {
@@ -131,19 +105,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     link.addEventListener('click', e => {
       e.preventDefault();
-      history.pushState(null, '', post.dataset.url);
-      routeByURL();
+      alert('🖱️ klik post: ' + post.dataset.url);
+      showPost(post.dataset.url, true);
     });
   });
 
-  /* =====================
-     BACK / FORWARD
-  ===================== */
-  window.addEventListener('popstate', routeByURL);
+  function router() {
+    const path = location.pathname;
+    alert('🧭 router() | path = ' + path);
 
-  /* =====================
-     INITIAL LOAD
-  ===================== */
-  routeByURL();
+    const post = posts.find(p => p.dataset.url === path);
+    if (post) {
+      alert('✅ route: SINGLE POST');
+      showPost(path, false);
+      return;
+    }
+
+    if (path === BLOG_PATH) {
+      alert('✅ route: LIST');
+      showList(false);
+      return;
+    }
+
+    alert('✅ route: HOME');
+    showHome();
+  }
+
+  window.addEventListener('popstate', () => {
+    alert('🔙 popstate fired | path = ' + location.pathname);
+    router();
+  });
+
+  alert('🚀 initial load');
+  router();
 });
 </script>

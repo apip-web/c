@@ -49,13 +49,17 @@
         </ul>
     </div> 
       </header>
-      <section>
 
-      {{ content }}
+<section class="spa-root">
 
-      {% include blog-mini.js.html %}
-      
-      </section>
+  <div id="spa-home">
+    {{ content }}
+  </div>
+
+  {% include blog-mini.js.html %}
+
+</section>
+
 <footer>
 <div class="footer-bottom">
         <p>This site is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a><br>

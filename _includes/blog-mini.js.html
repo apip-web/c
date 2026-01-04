@@ -25,54 +25,56 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('open-blog');
-  const homepage = document.querySelector('.homepage');
+  const spaHome = document.getElementById('spa-home');
   const postsWrap = document.getElementById('posts');
-  const posts = document.querySelectorAll('.post');
+  const posts = [...document.querySelectorAll('.post')];
 
-  function showHome() {
-    btn.style.display = '';
-    homepage.style.display = '';
-    postsWrap.style.display = 'none';
+  function hideJekyllContent() {
+    spaHome.style.display = 'none';
+  }
 
+  function showJekyllContent() {
+    spaHome.style.display = '';
+  }
+
+  function resetPosts() {
     posts.forEach(p => {
       p.style.display = '';
       p.querySelector('.post-content').style.display = 'none';
       p.querySelector('.post-excerpt').style.display = '';
-      const titleLink = p.querySelector('.post-title a');
-      if (titleLink) titleLink.style.display = '';
+      const link = p.querySelector('.post-title a');
+      if (link) link.style.display = '';
     });
   }
 
-  function showList() {
-    btn.style.display = 'none';
-    homepage.style.display = 'none';
-    postsWrap.style.display = '';
+  function showHome() {
+    showJekyllContent();
+    postsWrap.style.display = 'none';
+    resetPosts();
+  }
 
-    posts.forEach(p => {
-      p.style.display = '';
-      p.querySelector('.post-content').style.display = 'none';
-      p.querySelector('.post-excerpt').style.display = '';
-      const titleLink = p.querySelector('.post-title a');
-      if (titleLink) titleLink.style.display = '';
-    });
+  function showList() {
+    hideJekyllContent();
+    postsWrap.style.display = '';
+    resetPosts();
   }
 
   function showPost(url) {
     showList();
     posts.forEach(p => {
-      const isTarget = p.dataset.url === url;
-      p.style.display = isTarget ? '' : 'none';
-      p.querySelector('.post-content').style.display = isTarget ? '' : 'none';
-      p.querySelector('.post-excerpt').style.display = isTarget ? 'none' : '';
-      const titleLink = p.querySelector('.post-title a');
-      if (titleLink) titleLink.style.display = isTarget ? 'none' : '';
+      const active = p.dataset.url === url;
+      p.style.display = active ? '' : 'none';
+      p.querySelector('.post-content').style.display = active ? '' : 'none';
+      p.querySelector('.post-excerpt').style.display = active ? 'none' : '';
+      const link = p.querySelector('.post-title a');
+      if (link) link.style.display = active ? 'none' : '';
     });
   }
 
-  // klik tombol “lihat blog”
+  // tombol blog
   if (btn) {
     btn.addEventListener('click', () => {
-      history.pushState({ view: 'list' }, '', '#blog');
+      history.pushState({}, '', '#blog');
       showList();
     });
   }
@@ -80,42 +82,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // klik judul post
   posts.forEach(post => {
     const link = post.querySelector('.post-title a');
-    if (!link) return;
     link.addEventListener('click', e => {
       e.preventDefault();
-      const url = post.dataset.url;
-      history.pushState({ view: 'post', url }, '', url);
-      showPost(url);
+      history.pushState({}, '', post.dataset.url);
+      showPost(post.dataset.url);
     });
   });
 
-  // router SPA: homepage / daftar post / single post
   function router() {
     const path = location.pathname;
     const hash = location.hash;
 
-    // tombol “lihat blog” → daftar post
     if (hash === '#blog') {
       showList();
       return;
     }
 
-    // single post
-    const post = [...posts].find(p => p.dataset.url === path);
+    const post = posts.find(p => p.dataset.url === path);
     if (post) {
       showPost(path);
       return;
     }
 
-    // default → homepage
     showHome();
   }
 
-  // back/forward browser
   window.addEventListener('popstate', router);
   window.addEventListener('hashchange', router);
 
-  // initial load
   router();
 });
 </script>
